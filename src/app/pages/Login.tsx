@@ -7,7 +7,7 @@ import imgDownload1 from "../../imports/Html→Body-3/c111dcd504f2824238d8c1eac7
 function Heading1() {
   return (
     <div className="content-stretch flex flex-col items-start relative shrink-0 w-full" data-name="Heading 2">
-      <div className="[word-break:break-word] flex flex-col font-['Plus_Jakarta_Sans:ExtraBold',sans-serif] font-extrabold justify-center leading-[0] relative shrink-0 text-[#a04100] text-[40px] tracking-[-0.8px] whitespace-nowrap">
+      <div className="[word-break:break-word] flex flex-col font-['Plus_Jakarta_Sans:Bold',sans-serif] font-extrabold justify-center leading-[0] relative shrink-0 text-[#a04100] text-[40px] tracking-[-0.8px] whitespace-nowrap">
         <p className="leading-[44px]">A Ilha te espera.</p>
       </div>
     </div>
@@ -387,7 +387,7 @@ function MainContentArea({ email, password, onEmailChange, onPasswordChange, onF
 function Container14() {
   return (
     <div className="content-stretch flex flex-col items-start relative shrink-0 w-[139px]" data-name="Container">
-      <div className="[word-break:break-word] flex flex-col font-['Plus_Jakarta_Sans:ExtraBold',sans-serif] font-black justify-center leading-[0] relative shrink-0 text-[#a04100] text-[24px] w-[136px]">
+      <div className="[word-break:break-word] flex flex-col font-['Plus_Jakarta_Sans:Bold',sans-serif] font-black justify-center leading-[0] relative shrink-0 text-[#a04100] text-[24px] w-[136px]">
         <p className="leading-[28.8px]">ManéGuide</p>
       </div>
     </div>
@@ -496,7 +496,7 @@ function Container13() {
         className="content-stretch flex flex-col items-start relative shrink-0 w-[139px] bg-transparent border-0 cursor-pointer hover:opacity-70 transition-opacity"
         data-name="Container"
       >
-        <div className="[word-break:break-word] flex flex-col font-['Plus_Jakarta_Sans:ExtraBold',sans-serif] font-black justify-center leading-[0] relative shrink-0 text-[#a04100] text-[24px] w-[136px]">
+        <div className="[word-break:break-word] flex flex-col font-['Plus_Jakarta_Sans:Bold',sans-serif] font-black justify-center leading-[0] relative shrink-0 text-[#a04100] text-[24px] w-[136px]">
           <p className="leading-[28.8px]">ManéGuide</p>
         </div>
       </button>

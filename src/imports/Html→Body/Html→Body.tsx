@@ -1289,25 +1289,19 @@ function MainContent() {
 
 function Container() {
   return (
-    <div className="absolute content-stretch flex items-start left-0 right-0 top-[115px]" data-name="Container">
+    <div className="absolute content-stretch flex items-start left-0 right-0 top-[115px] bottom-0" data-name="Container">
       <AsideSideNavBar />
       <MainContent />
     </div>
   );
 }
 
-function Footer() {
-  return (
-    <div className="absolute bg-[#9d988f] bottom-0 h-[109px] left-0 right-0" data-name="Footer">
-      <div aria-hidden="true" className="absolute border-[#e2bfb0] border-solid border-t-2 inset-0 pointer-events-none" />
-    </div>
-  );
-}
+
 
 function Container58() {
   return (
     <div className="content-stretch flex flex-col items-start relative shrink-0 w-[139px]" data-name="Container">
-      <div className="[word-break:break-word] flex flex-col font-['Plus_Jakarta_Sans:ExtraBold',sans-serif] font-black justify-center leading-[0] relative shrink-0 text-[#a04100] text-[24px] w-[136px]">
+      <div className="[word-break:break-word] flex flex-col font-['Plus_Jakarta_Sans:Bold',sans-serif] font-black justify-center leading-[0] relative shrink-0 text-[#a04100] text-[24px] w-[136px]">
         <p className="leading-[28.8px]">ManéGuide</p>
       </div>
     </div>
@@ -1543,7 +1537,7 @@ function Container66() {
 
 function Container63() {
   return (
-    <div className="absolute content-stretch flex items-center justify-between left-[47px] max-w-[1200px] pl-[64px] pr-[64.02px] right-[33px] top-[1682px]" data-name="Container">
+    <div className="absolute bg-[#9d988f] content-stretch flex items-center justify-between left-[47px] min-h-[100px] max-w-[2200px] pl-[64px] pr-[64.02px] right-[33px] top-[1682px]" data-name="Container">
       <Container64 />
       <Container65 />
       <Container66 />
@@ -1553,9 +1547,8 @@ function Container63() {
 
 export default function HtmlBody() {
   return (
-    <div className="relative min-h-screen w-full" style={{ backgroundImage: "linear-gradient(90deg, rgb(255, 248, 245) 0%, rgb(255, 248, 245) 100%), linear-gradient(90deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 100%)" }} data-name="Html → Body">
+    <div className="h-100% w-full" style={{ backgroundImage: "linear-gradient(90deg, rgb(255, 248, 245) 0%, rgb(255, 248, 245) 100%), linear-gradient(90deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 100%)" }} data-name="Html → Body">
       <Container />
-      <Footer />
       <HeaderTopNavBar />
       <Container63 />
     </div>

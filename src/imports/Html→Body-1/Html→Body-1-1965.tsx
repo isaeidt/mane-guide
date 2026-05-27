@@ -413,7 +413,6 @@ function Container18() {
   return (
     <div className="content-stretch flex flex-col items-start justify-center relative shrink-0 size-[384px]" data-name="Container">
       <div className="absolute bg-[#ffdbcc] blur-[32px] inset-0 opacity-30 rounded-[9999px]" data-name="Decorative doodle behind mascot" />
-      <MascoteManeGuide />
     </div>
   );
 }
@@ -1186,7 +1185,7 @@ function SectionFavoritesGrid() {
 
 function Container() {
   return (
-    <div className="absolute content-stretch flex items-start left-0 right-0 top-[66px]" data-name="Container">
+    <div className="absolute  content-stretch flex items-start left-0 right-0 top-[66px]" data-name="Container">
       <AsideSideNavBar />
       <HeaderHeroSection />
       <SearchFilterBarMicroInteraction />
@@ -1425,7 +1424,7 @@ function Link11() {
 
 function Container64() {
   return (
-    <div className="content-stretch flex gap-[24px] h-[12px] items-start justify-center relative shrink-0" data-name="Container">
+    <div className=" content-stretch flex gap-[24px] h-[12px] items-start justify-center relative shrink-0" data-name="Container">
       <Link8 />
       <Link9 />
       <Link10 />
@@ -1436,7 +1435,7 @@ function Container64() {
 
 function Container65() {
   return (
-    <div className="content-stretch flex flex-col items-start opacity-80 relative shrink-0" data-name="Container">
+    <div className="content-stretch  flex flex-col items-start opacity-80 relative shrink-0" data-name="Container">
       <div className="[word-break:break-word] flex flex-col font-['Space_Grotesk:Bold',sans-serif] font-bold justify-center leading-[0] relative shrink-0 text-[#33312a] text-[12px] tracking-[0.6px] whitespace-nowrap">
         <p className="leading-[12px]">© 2026 ManéGuide - Feito com sotaque em Floripa.</p>
       </div>
@@ -1446,7 +1445,7 @@ function Container65() {
 
 function Container62() {
   return (
-    <div className="absolute content-stretch flex items-center justify-between left-[47px] max-w-[1200px] pl-[64px] pr-[64.02px] right-[33px] top-[1633px]" data-name="Container">
+    <div className="absolute  content-stretch flex items-center justify-between left-[47px] max-w-[1200px] pl-[64px] pr-[64.02px] right-[33px] top-[1633px]" data-name="Container">
       <Container63 />
       <Container64 />
       <Container65 />
@@ -1456,9 +1455,8 @@ function Container62() {
 
 export default function HtmlBody() {
   return (
-    <div className="relative min-h-screen w-full" style={{ backgroundImage: "linear-gradient(90deg, rgb(255, 248, 245) 0%, rgb(255, 248, 245) 100%), linear-gradient(90deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 100%)" }} data-name="Html → Body">
+    <div className="relative h-screen w-full" style={{ backgroundImage: "linear-gradient(90deg, rgb(255, 248, 245) 0%, rgb(255, 248, 245) 100%), linear-gradient(90deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 100%)" }} data-name="Html → Body">
       <Container />
-      <Footer />
       <HeaderTopNavBar />
       <Container62 />
     </div>

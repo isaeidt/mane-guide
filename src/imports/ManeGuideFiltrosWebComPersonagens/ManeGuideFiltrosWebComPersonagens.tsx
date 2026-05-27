@@ -1335,11 +1335,11 @@ function MainContentArea() {
   return (
     <div className="flex-[1_0_0] h-[1220px] min-h-[1024px] min-w-px relative" data-name="Main Content Area">
       <Container />
-      <Footer />
       <HeaderTopSearchBar />
       <div className="-translate-y-1/2 [word-break:break-word] absolute flex flex-col font-['Space_Grotesk:Bold',sans-serif] font-bold justify-center leading-[0] left-[674px] text-[#5a4136] text-[12px] top-[43px] tracking-[0.6px] whitespace-nowrap">
         <p className="leading-[12px]">Explorar</p>
       </div>
+      <Footer />
     </div>
   );
 }

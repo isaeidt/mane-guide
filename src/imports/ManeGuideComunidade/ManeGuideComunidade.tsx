@@ -1561,7 +1561,7 @@ function FeedItems() {
 
 function MainFeedContent() {
   return (
-    <div className="content-stretch flex flex-col gap-[32px] h-[1749px] items-start overflow-auto p-[32px] relative shrink-0 w-[671px]" data-name="Main Feed Content">
+    <div className="content-stretch flex flex-col gap-[32px] h-[1749px] items-start overflow-hidden p-[32px] relative shrink-0 w-[671px]" data-name="Main Feed Content">
       <CharacterWelcomeSection />
       <FeedFilters />
       <FeedItems />

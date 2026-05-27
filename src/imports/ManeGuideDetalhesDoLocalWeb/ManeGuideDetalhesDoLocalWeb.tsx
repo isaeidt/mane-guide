@@ -2047,9 +2047,9 @@ export default function ManeGuideDetalhesDoLocalWeb() {
   return (
     <div className="content-stretch flex flex-col gap-[45px] items-start relative min-h-screen w-full" style={{ backgroundImage: "linear-gradient(90deg, rgb(255, 248, 245) 0%, rgb(255, 248, 245) 100%), linear-gradient(90deg, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 100%)" }} data-name="ManéGuide - Detalhes do Local (Web)">
       <MainContentCanvas />
-      <Footer />
       <SideNavBarFromJson />
       <SideNavBarFromJson1 />
+      <Footer />
     </div>
   );
 }
