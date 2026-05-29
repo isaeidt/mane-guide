@@ -43,8 +43,8 @@ export function Header() {
   ) => {
     if (e.key === "Enter" && searchQuery.trim()) {
       router.push(
-        `/lugar/${encodeURIComponent(
-          searchQuery.trim().toLowerCase().replace(/\s+/g, "-")
+        `/explorar?query=${encodeURIComponent(
+          searchQuery.trim()
         )}`
       )
     }

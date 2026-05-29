@@ -24,6 +24,14 @@ const categoryColors: Record<string, string> = {
   "LADO B CLÁSSICO": "bg-orange-600 text-white",
   GASTRONOMIA: "bg-emerald-500 text-white",
   NATUREZA: "bg-green-600 text-white",
+  Praia: "bg-sky-600 text-white",
+  Trilha: "bg-green-700 text-white",
+  Gastronomia: "bg-emerald-600 text-white",
+  Mirante: "bg-amber-600 text-white",
+  Cultural: "bg-indigo-600 text-white",
+  Natureza: "bg-lime-600 text-white",
+  Noite: "bg-rose-600 text-white",
+  Familia: "bg-teal-600 text-white",
 }
 
 export function PlaceCard({
