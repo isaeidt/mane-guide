@@ -41,12 +41,15 @@ export function Header() {
   const handleSearch = (
     e: React.KeyboardEvent<HTMLInputElement>
   ) => {
-    if (e.key === "Enter" && searchQuery.trim()) {
-      router.push(
-        `/explorar?query=${encodeURIComponent(
-          searchQuery.trim()
-        )}`
-      )
+    if (e.key === "Enter") {
+      const term = searchQuery.trim()
+
+      if (term) {
+        router.push(`/explorar?query=${encodeURIComponent(term)}`)
+        return
+      }
+
+      router.push("/explorar")
     }
   }
 

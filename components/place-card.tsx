@@ -77,6 +77,7 @@ export function PlaceCard({
       }
 
       localStorage.setItem("mg:favorites", JSON.stringify(updated))
+      window.dispatchEvent(new Event("mg:favorites-changed"))
     } catch (e) {
       // ignore
     }

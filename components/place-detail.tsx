@@ -29,6 +29,7 @@ export default function PlaceDetail({ place }: { place: Place }) {
         ? favs.filter((x) => x !== place.id)
         : [...favs, place.id]
       localStorage.setItem("mg:favorites", JSON.stringify(next))
+      window.dispatchEvent(new Event("mg:favorites-changed"))
       setIsFavorited(next.includes(place.id))
     } catch {
       // ignore
