@@ -64,7 +64,7 @@ const featuredPlaces = [
     description:
       "Experimente as melhores ostras frescas direto do produtor, um segredo dos locais.",
     image:
-      "https://images.unsplash.com/photo-1606850780554-b55ea4dd0b70?w=800&q=80",
+      "/ostras.jpg",
     category: "GASTRONOMIA",
   },
 ]

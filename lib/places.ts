@@ -4,7 +4,7 @@ export type InterestTag =
   | "Surf"
   | "Trilha"
   | "Por do sol"
-  | "Pe na areia"
+  | "Pé na  areia"
   | "Tainha assada"
   | "Artesanato"
   | "Musica ao vivo"
@@ -15,6 +15,7 @@ export type InterestTag =
   | "Natureza"
   | "Cachoeira"
   | "Passeio de barco"
+  | "Família"
 
 export type PlaceCategory =
   | "Praia"
@@ -24,7 +25,7 @@ export type PlaceCategory =
   | "Cultural"
   | "Natureza"
   | "Noite"
-  | "Familia"
+  | "Família"
 
 export interface Place {
   id: string
@@ -101,7 +102,7 @@ export const places: Place[] = [
     rating: 4.9,
     tags: ["Popular"],
     socialTags: ["date", "galera"],
-    interests: ["Mergulho", "Pe na areia", "Passeio de barco"],
+    interests: ["Mergulho", "Pé na  areia", "Passeio de barco"],
     location: "Saída de barco da Praia da Armação, Florianópolis - SC",
     vibeLevel: 92,
     vibeComment: "Mar transparente, trilha curta e clima de cartão-postal sem perder o jeitão de refúgio da ilha.",
@@ -121,7 +122,7 @@ export const places: Place[] = [
   },
   {
     id: "praia-do-gravata",
-    name: "Praia do Gravata",
+    name: "Praia do Gravatá",
     description: "Trilha curta e ingrime com mar azul e vila de pescadores.",
     image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800&q=80",
     category: "Praia",
@@ -129,7 +130,7 @@ export const places: Place[] = [
     rating: 4.7,
     difficulty: "medium",
     socialTags: ["sozinho", "galera"],
-    interests: ["Trilha", "Pe na areia", "Natureza"],
+    interests: ["Trilha", "Pé na  areia", "Natureza"],
     location: "Acesso pela Praia do Gravatá, Sul da Ilha - Florianópolis - SC",
     vibeLevel: 81,
     vibeComment: "Trilha rápida, vento no rosto e a sensação de descobrir um pedaço escondido da costa sul.",
@@ -153,7 +154,7 @@ export const places: Place[] = [
     rating: 4.6,
     tags: ["Surf Pro"],
     socialTags: ["galera", "sozinho"],
-    interests: ["Surf", "Pe na areia"],
+    interests: ["Surf", "Pé na  areia"],
     location: "Canto leste da Praia Mole, Florianópolis - SC",
     vibeLevel: 88,
     vibeComment: "Pico pra quem curte mar mexido, respiro de local e pôr do sol sem firula.",
@@ -195,7 +196,7 @@ export const places: Place[] = [
     id: "pedra-do-urubu",
     name: "Pedra do Urubu",
     description: "Subida leve com vista do rio encontrando o mar. Perfeito pro por do sol.",
-    image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=800&q=80",
+    image: "/pedra_urubu.jpg",
     category: "Trilha",
     priceLevel: 1,
     rating: 4.7,
@@ -210,7 +211,7 @@ export const places: Place[] = [
     events: defaultEvents("Pôr do sol"),
     comfort: ["Vista do mar e rio", "Trilha tranquila", "Melhor luz no fim da tarde", "Silêncio bom"],
     images: [
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1200&q=80",
+      "/pedra_urubu.jpg",
       "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1200&q=80",
       "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&q=80",
     ],
@@ -263,7 +264,7 @@ export const places: Place[] = [
   },
   {
     id: "bar-do-mane",
-    name: "Bar do Mane",
+    name: "Bar do Mané",
     description: "Boteco raiz com petisco bom e cerveja gelada perto do centrinho.",
     image: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=800&q=80",
     category: "Gastronomia",
@@ -325,8 +326,8 @@ export const places: Place[] = [
     events: defaultEvents("Feira e roda cultural"),
     comfort: ["Artesanato local", "Comida de rua", "Música leve", "Clima de bairro"],
     images: [
-      "https://images.unsplash.com/photo-1523475472560-d2df97ec485c?w=1200&q=80",
-      "https://images.unsplash.com/photo-1505937007264-4b3f2e3f0dca?w=1200&q=80",
+      "/lagoa/lagoa2.jpg",
+      "/lagoa/bicicleta.jpg",
       "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1200&q=80",
     ],
   },
@@ -334,7 +335,7 @@ export const places: Place[] = [
     id: "santo-antonio-de-lisboa",
     name: "Santo Antonio de Lisboa",
     description: "Casario historico, restaurantes a beira mar e por do sol classico.",
-    image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=800&q=80",
+    image: "/santo_antonio.jpg",
     category: "Cultural",
     priceLevel: 3,
     rating: 4.8,
@@ -348,7 +349,7 @@ export const places: Place[] = [
     events: defaultEvents("Jantar à beira-mar"),
     comfort: ["Por do sol clássico", "Restaurantes à beira-mar", "História viva", "Jantar sem pressa"],
     images: [
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1200&q=80",
+      "/santo_antonio.jpg",
       "https://images.unsplash.com/photo-1507400492013-162706c8c05e?w=1200&q=80",
       "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?w=1200&q=80",
     ],
@@ -380,7 +381,7 @@ export const places: Place[] = [
     id: "bar-do-arante",
     name: "Bar do Arante",
     description: "Parede cheia de bilhetes e petiscos bem servidos. Classico do sul.",
-    image: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=800&q=80",
+    image: "/bar do arante.jpg",
     category: "Gastronomia",
     priceLevel: 2,
     rating: 4.6,
@@ -408,7 +409,7 @@ export const places: Place[] = [
     priceLevel: 1,
     rating: 4.8,
     socialTags: ["date", "galera", "sozinho"],
-    interests: ["Pe na areia", "Surf", "Por do sol"],
+    interests: ["Pé na  areia", "Surf", "Por do sol"],
     location: "Sul da ilha, ligação pela trilha do Matadeiro - Florianópolis - SC",
     vibeLevel: 89,
     vibeComment: "Praia pra respirar fundo, andar na areia e esquecer barulho de cidade por um tempo.",
@@ -424,7 +425,7 @@ export const places: Place[] = [
   },
   {
     id: "costao-do-santinho",
-    name: "Costao do Santinho",
+    name: "Costão  do Santinho",
     description: "Trilha longa com mar aberto e costoes de pedra. Leve agua.",
     image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800&q=80",
     category: "Trilha",
@@ -450,12 +451,12 @@ export const places: Place[] = [
     id: "lagoa-do-peri",
     name: "Lagoa do Peri",
     description: "Passeio tranquilo com natureza e agua doce. Bom pra relaxar.",
-    image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=800&q=80",
+    image: "/lagoa_peri.jpg",
     category: "Natureza",
     priceLevel: 1,
     rating: 4.6,
     socialTags: ["galera", "sozinho"],
-    interests: ["Natureza", "Pe na areia", "Trilha"],
+    interests: ["Natureza", "Pé na  areia", "Trilha"],
     location: "Sul da ilha, entre a praia e a lagoa - Florianópolis - SC",
     vibeLevel: 78,
     vibeComment: "Água doce, silêncio e espaço pra baixar a bola do dia com tranquilidade.",
@@ -464,7 +465,7 @@ export const places: Place[] = [
     events: defaultEvents("Piquenique e banho"),
     comfort: ["Banho de água doce", "Trilha leve", "Família gosta", "Área verde"],
     images: [
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1200&q=80",
+      "/lagoa_peri.jpg",
       "https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1200&q=80",
       "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&q=80",
     ],
@@ -474,11 +475,11 @@ export const places: Place[] = [
     name: "Projeto Tamar",
     description: "Passeio educativo com tartarugas e historia da conservacao.",
     image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80",
-    category: "Familia",
+    category: "Família",
     priceLevel: 2,
     rating: 4.5,
     socialTags: ["galera", "date"],
-    interests: ["Familia", "Historia"],
+    interests: ["Família", "Historia"],
     location: "Barra da Lagoa, norte da ilha - Florianópolis - SC",
     vibeLevel: 74,
     vibeComment: "Parada educativa e leve, boa pra ir sem pressa e sair com a cabeça mais tranquila.",
@@ -519,7 +520,7 @@ export const places: Place[] = [
     id: "ponte-hercilio-luz",
     name: "Ponte Hercilio Luz",
     description: "Caminhada no fim de tarde com vista da baia norte.",
-    image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=800&q=80",
+    image: "/hercilioluz.jpg",
     category: "Cultural",
     priceLevel: 1,
     rating: 4.9,
@@ -533,7 +534,7 @@ export const places: Place[] = [
     events: defaultEvents("Caminhada histórica"),
     comfort: ["História da ilha", "Foto clássica", "Vista da baía norte", "Passeio urbano"],
     images: [
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1200&q=80",
+      "/hercilioluz.jpg",
       "https://images.unsplash.com/photo-1507400492013-162706c8c05e?w=1200&q=80",
       "https://images.unsplash.com/photo-1523475472560-d2df97ec485c?w=1200&q=80",
     ],
@@ -565,7 +566,7 @@ export const places: Place[] = [
     id: "jazz-ostras",
     name: "Jazz & Ostras",
     description: "Noite com musica ao vivo e ostras frescas perto do centro.",
-    image: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=800&q=80",
+    image: "/jazz.jpg",
     category: "Noite",
     priceLevel: 3,
     rating: 4.7,

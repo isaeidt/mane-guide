@@ -31,7 +31,7 @@ const categoryColors: Record<string, string> = {
   Cultural: "bg-indigo-600 text-white",
   Natureza: "bg-lime-600 text-white",
   Noite: "bg-rose-600 text-white",
-  Familia: "bg-teal-600 text-white",
+  Família: "bg-teal-600 text-white",
 }
 
 export function PlaceCard({

@@ -68,7 +68,7 @@ const favoritos = [
     id: "bar-do-arante",
     name: "Bar do Arante",
     description: "Tradicional bar na praia do Pantano do Sul com frutos do mar.",
-    image: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=800&q=80",
+    image: "/bar do arante.jpg",
     rating: 4.6,
   },
   {

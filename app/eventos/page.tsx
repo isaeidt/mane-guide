@@ -24,7 +24,7 @@ const events = [
     name: "Feirinha da Lagoa",
     date: "Domingo, 09:00 - 17:00",
     location: "Santo Antônio de Lisboa",
-    image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&q=80",
+    image: "/santo_antonio.jpg",
     category: "Feira",
     featured: false,
   },

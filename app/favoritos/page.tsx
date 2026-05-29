@@ -39,7 +39,7 @@ const favoritePlaces = [
     id: "santo-antonio",
     name: "Santo Antônio",
     description: "Caminhar por aqui é voltar ao tempo das colonizações açorianas. Perfeito pra...",
-    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80",
+    image: "/santo_antonio.jpg",
     category: "CULTURAL",
     rating: 4.4,
   },
