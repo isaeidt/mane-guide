@@ -75,7 +75,7 @@ const communityPosts = [
     author: {
       name: "João Pescador",
       avatar:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80",
+        "/bonicos/pitch-(8).png",
       role: "Morador Local",
     },
     content:
@@ -88,7 +88,7 @@ const communityPosts = [
     author: {
       name: "Dona Maristela",
       avatar:
-        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80",
+        "/bonicos/pitch-(9).png",
       role: "Morador Local",
     },
     content:
@@ -101,7 +101,7 @@ const communityPosts = [
     author: {
       name: "Jorge Ciclista",
       avatar:
-        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80",
+        "/bonicos/pitch-(10).png",
       role: "Morador Local",
     },
     content:

@@ -24,19 +24,19 @@ const topManezinhos = [
   {
     id: "1",
     name: "Zeca Galego",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80",
+    avatar: "/bonicos/15.png",
     posts: 47,
   },
   {
     id: "2",
     name: "Dona Maria",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80",
+    avatar: "/bonicos/16.png",
     posts: 32,
   },
   {
     id: "3",
     name: "Rafa Explorer",
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80",
+    avatar: "/bonicos/17.png",
     posts: 28,
   },
 ]
@@ -45,7 +45,7 @@ const featuredPost = {
   id: "featured",
   author: {
     name: "Beto da Costa",
-    avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80",
+    avatar: "/bonicos/pitch-(6).png",
     role: "Moradora Local",
   },
   content: "Acabei de ver o pôr do sol na Ponta das Canas e não tem erro: o melhor lugar e aréas da Lagoinha. Sêm crowd e com visual de novela. O tempo é iincrível!",
@@ -59,7 +59,7 @@ const posts = [
     id: "1",
     author: {
       name: "João Pescador",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80",
+      avatar: "/bonicos/pitch-(7).png",
       role: "Morador Local",
     },
     content: "Ô turista, hoje tá muito bom pra passear de canoa no rio da pratelinha! Maré cheia até às 15h, depois o rio vira um espelho.",
@@ -70,7 +70,7 @@ const posts = [
     id: "2",
     author: {
       name: "Carla Mares",
-      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80",
+      avatar: "/bonicos/pitch-(8).png",
     },
     content: "Alguém sabe se o mercado público tá aberto até mais tarde hoje por causa do feriado? Valeu, galera!",
     likes: 62,
@@ -80,10 +80,10 @@ const posts = [
     id: "3",
     author: {
       name: "João Silveira",
-      avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80",
+      avatar: "/bonicos/pitch-(9).png",
     },
     content: "Sequência de camarão na Lagoa — melhor custo benefício que encontrei. O transporte é bem simples, tô sempre pelo lado de cá. Quem foi, sabe como é boa essa sacada.",
-    image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=800&q=80",
+    image: "camarao.jpg",
     likes: 89,
     comments: 12,
   },

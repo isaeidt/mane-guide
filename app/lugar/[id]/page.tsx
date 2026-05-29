@@ -1,18 +1,22 @@
+"use client"
+
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Sidebar } from "@/components/sidebar"
 import { Header } from "@/components/header"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { 
-  MapPin, 
-  Heart, 
-  Share2, 
-  Clock, 
+import {
+  X,
   ChevronLeft,
+  ChevronRight,
+  MapPin,
+  Heart,
+  Share2,
+  Clock,
   Star,
   Calendar,
   Music,
-  ShoppingBag
+  ShoppingBag,
 } from "lucide-react"
 
 const placeData = {
@@ -21,10 +25,12 @@ const placeData = {
   location: "Centrinho da Lagoa, Florianópolis - SC",
   description: "O coração boêmio da ilha. Aqui você encontra de tudo: bares, restaurantes, lojas de artesanato e uma vista incrível da lagoa.",
   images: [
-    "https://images.unsplash.com/photo-1598981457915-aea220950616?w=800&q=80",
-    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80",
-    "https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=800&q=80",
-    "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80",
+    "/lagoa/lagoa.jpg",
+    "/lagoa/lagoa2.JPG",
+    "/lagoa/lagoa1.JPG",
+    "/lagoa/pousadas.jpg",
+    "/lagoa/restaurante.jpg",
+    "/lagoa/bicicleta.jpg",
   ],
   vibeLevel: 75,
   vibeComment: "Tá rodando aquele verinho sol clássico. Move a garota de chegando limite para outras!",
@@ -36,20 +42,20 @@ const placeData = {
   tips: [
     {
       id: "1",
-      author: "Dona Boca",
-      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80",
+      author: "Dona Buce",
+      avatar: "/bonicos/pitch-(8).png",
       content: "Morei no centrinho a vida toda. Se precisar de risco, é só aperitivos, se os lugares fechou.",
     },
     {
       id: "2",
       author: "Cléo Surf",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&q=80",
+      avatar: "/bonicos/pitch-(9).png",
       content: "Meus anos na região e nenhuma vontade a sair. Tirar água e fazer trilhas que não estão em mapa do Google.",
     },
     {
       id: "3",
-      author: "Galera",
-      avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80",
+      author: "Gerard Way",
+      avatar: "/bonicos/pitch-(10).png",
       content: "Perfeito pra curtir a vibe local e conhecer gente nova.",
     },
   ],
@@ -79,7 +85,36 @@ export default function LugarPage({
   params,
 }: {
   params: { id: string }
-}) {
+}) 
+{
+  const [selectedImage, setSelectedImage] = useState<number | null>(null)
+
+const nextImage = () => {
+  if (selectedImage === null) return
+  setSelectedImage((selectedImage + 1) % placeData.images.length)
+}
+
+const prevImage = () => {
+  if (selectedImage === null) return
+  setSelectedImage(
+    (selectedImage - 1 + placeData.images.length) %
+      placeData.images.length
+  )
+}
+
+useEffect(() => {
+  const handleKey = (e: KeyboardEvent) => {
+    if (e.key === "Escape") setSelectedImage(null)
+    if (e.key === "ArrowRight") nextImage()
+    if (e.key === "ArrowLeft") prevImage()
+  }
+
+  window.addEventListener("keydown", handleKey)
+
+  return () => {
+    window.removeEventListener("keydown", handleKey)
+  }
+}, [selectedImage])
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -119,37 +154,47 @@ export default function LugarPage({
         </div>
 
         {/* Image Gallery */}
-        <div className="mb-8 grid grid-cols-4 grid-rows-2 gap-4">
-          <div className="relative col-span-2 row-span-2 overflow-hidden rounded-2xl">
-            <Image
-              src={placeData.images[0]}
-              alt={placeData.name}
-              fill
-              className="object-cover"
-            />
-          </div>
-
-          {placeData.images.slice(1, 4).map((img, i) => (
-            <div
-              key={i}
-              className="relative overflow-hidden rounded-2xl"
+        <div className="mb-8">
+          <div className="grid h-[420px] grid-cols-3 gap-3 overflow-hidden rounded-3xl">
+            {/* Imagem principal */}
+            <button
+              onClick={() => setSelectedImage(0)}
+              className="relative col-span-2 h-full overflow-hidden rounded-3xl"
             >
               <Image
-                src={img}
-                alt=""
+                src={placeData.images[0]}
+                alt={placeData.name}
                 fill
-                className="object-cover"
+                className="object-cover transition duration-300 hover:scale-105"
               />
+            </button>
 
-              {i === 2 && (
-                <div className="absolute inset-0 flex items-center justify-center bg-black/50">
-                  <span className="text-sm font-medium text-white">
-                    +12 fotos
-                  </span>
-                </div>
-              )}
+            {/* Coluna direita */}
+            <div className="grid grid-rows-2 gap-3">
+              {placeData.images.slice(1, 3).map((img, i) => (
+                <button
+                  key={i}
+                  onClick={() => setSelectedImage(i + 1)}
+                  className="relative overflow-hidden rounded-3xl"
+                >
+                  <Image
+                    src={img}
+                    alt={`Foto ${i + 2}`}
+                    fill
+                    className="object-cover transition duration-300 hover:scale-105"
+                  />
+
+                  {i === 1 && placeData.images.length > 3 && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/45">
+                      <span className="text-lg font-semibold text-white">
+                        +{placeData.images.length - 3} fotos
+                      </span>
+                    </div>
+                  )}
+                </button>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
 
         <div className="grid gap-6 lg:grid-cols-3">
@@ -313,6 +358,49 @@ export default function LugarPage({
           </div>
         </div>
       </main>
+
+      {/* Modal da galeria */}
+      {selectedImage !== null && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4">
+          <button
+            onClick={() => setSelectedImage(null)}
+            className="absolute right-5 top-5 rounded-full bg-white/10 p-2 text-white hover:bg-white/20"
+          >
+            <X className="h-6 w-6" />
+          </button>
+
+          <div className="relative h-[85vh] w-full max-w-6xl">
+            <Image
+              src={placeData.images[selectedImage]}
+              alt="Galeria"
+              fill
+              className="object-contain"
+            />
+          </div>
+
+          {/* Miniaturas */}
+          <div className="absolute bottom-6 flex gap-2 overflow-x-auto rounded-2xl bg-black/40 p-2 backdrop-blur">
+            {placeData.images.map((img, index) => (
+              <button
+                key={index}
+                onClick={() => setSelectedImage(index)}
+                className={`relative h-16 w-24 overflow-hidden rounded-lg border-2 ${
+                  selectedImage === index
+                    ? "border-white"
+                    : "border-transparent"
+                }`}
+              >
+                <Image
+                  src={img}
+                  alt=""
+                  fill
+                  className="object-cover"
+                />
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   )
 }
