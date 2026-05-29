@@ -4,7 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { MapPin, Star, Bookmark } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 interface PlaceCardProps {
   id: string
@@ -47,15 +47,44 @@ export function PlaceCard({
 }: PlaceCardProps) {
   const [isFavorited, setIsFavorited] = useState(false)
 
+  // load initial favorite state from localStorage
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("mg:favorites")
+      if (!raw) return
+      const favs: string[] = JSON.parse(raw)
+      setIsFavorited(favs.includes(id))
+    } catch (e) {
+      // ignore
+    }
+  }, [id])
+
   const handleFavorite = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
-    setIsFavorited(!isFavorited)
+    const next = !isFavorited
+    setIsFavorited(next)
+
+    try {
+      const raw = localStorage.getItem("mg:favorites")
+      const favs: string[] = raw ? JSON.parse(raw) : []
+
+      let updated: string[]
+      if (next) {
+        updated = Array.from(new Set([...favs, id]))
+      } else {
+        updated = favs.filter((x) => x !== id)
+      }
+
+      localStorage.setItem("mg:favorites", JSON.stringify(updated))
+    } catch (e) {
+      // ignore
+    }
   }
 
   return (
     <Link
-      href={`/lugar/${id}`}
+      href={`/lugar/${encodeURIComponent(id)}`}
       className={cn(
         "group block overflow-hidden rounded-2xl bg-card shadow-sm transition-all hover:shadow-md",
         className
