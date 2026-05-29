@@ -43,7 +43,7 @@ const mockEvents = [
     name: "Jazz & Ostras",
     date: "Hoje, 19:00",
     local: "Lagoa da Conceição",
-    image: "https://images.unsplash.com/photo-1415201364774-f6f0bb35f28f?w=80&q=80",
+    image: "/jazz.jpg",
   },
   {
     id: 2,

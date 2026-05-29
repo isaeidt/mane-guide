@@ -17,7 +17,7 @@ import {
 const filters = [
   { label: "Recentes", active: true },
   { label: "Bombando", active: false },
-  { label: "Kit Nativas", active: false },
+  { label: "Manés Verificados", active: false },
 ]
 
 const topManezinhos = [
@@ -49,7 +49,7 @@ const featuredPost = {
     role: "Moradora Local",
   },
   content: "Acabei de ver o pôr do sol na Ponta das Canas e não tem erro: o melhor lugar e aréas da Lagoinha. Sêm crowd e com visual de novela. O tempo é iincrível!",
-  image: "https://images.unsplash.com/photo-1507400492013-162706c8c05e?w=800&q=80",
+  image: "/por_sol.jpg",
   likes: 124,
   comments: 18,
 }
@@ -253,7 +253,7 @@ export default function ComunidadePage() {
           <div className="space-y-4">
             <div className="flex items-start gap-3">
               <Avatar className="h-10 w-10 border-2 border-primary/20">
-                <AvatarImage src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80" alt="Você" />
+                <AvatarImage src="/bonicos/14.png" alt="Você" />
                 <AvatarFallback>V</AvatarFallback>
               </Avatar>
               <div className="flex-1">
