@@ -46,8 +46,8 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
               <Image
                 src="/logo.png"
                 alt="ManéGuide"
-                width={38}
-                height={38}
+                width={80}
+                height={80}
                 className="rounded-full"
               />
               <span className="text-lg font-bold text-foreground">ManéGuide</span>

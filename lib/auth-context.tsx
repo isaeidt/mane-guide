@@ -43,7 +43,7 @@ const MOCK_USERS = [
     type: "estabelecimento" as UserType,
     name: "Ostras no Ribeirão",
     businessName: "Ostras no Ribeirão",
-    avatar: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=100&q=80",
+    avatar: "/bonicos/pitch-(10).png",
   },
 ]
 
@@ -79,8 +79,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
               name: "Seu Estabelecimento",
               email,
               type,
-              businessName: "Meu Negócio",
-              avatar: "/bonicos/16.png",
+              businessName: "Ostras Ribeirão",
+              avatar: "/bonicos/pitch-(10).png",
             }
           : {
               name: "Manezinho",

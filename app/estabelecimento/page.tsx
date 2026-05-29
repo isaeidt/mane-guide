@@ -239,10 +239,10 @@ export default function EstabelecimentoPage() {
             <div className="flex flex-col gap-4 overflow-hidden rounded-2xl border border-border bg-card p-6 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex items-center gap-4">
                 <Image
-                  src="/bonicos/pitch-(6).png"
+                  src="/bonicos/pitch-(10).png"
                   alt="Mascote parceiro"
-                  width={64}
-                  height={64}
+                  width={80}
+                  height={80}
                   className="shrink-0 object-contain"
                 />
                 <div>
