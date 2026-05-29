@@ -3,13 +3,6 @@ import { Header } from "@/components/header"
 import { PlaceCard } from "@/components/place-card"
 import { Grid, List } from "lucide-react"
 
-const filters = [
-  { label: "Recentes", active: true },
-  { label: "Bem Avaliados", active: false },
-  { label: "Bom p/ Vibe", active: false },
-  { label: "Prog. Semana", active: false },
-]
-
 const categoryFilters = [
   { label: "Todos", count: 12, active: true },
   { label: "Praias", count: 4, active: false },
@@ -92,22 +85,6 @@ export default function LadoBPage() {
               style={{ mixBlendMode: "multiply" }}
             />
           </div>
-        </div>
-
-        {/* Filter Tabs */}
-        <div className="mb-6 flex flex-wrap items-center gap-2">
-          {filters.map((filter) => (
-            <button
-              key={filter.label}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-                filter.active
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-muted text-muted-foreground hover:bg-muted/80"
-              }`}
-            >
-              {filter.label}
-            </button>
-          ))}
         </div>
 
         {/* Content */}

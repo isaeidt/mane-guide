@@ -14,12 +14,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 
-const filters = [
-  { label: "Recentes", active: true },
-  { label: "Bombando", active: false },
-  { label: "Manés Verificados", active: false },
-]
-
 const topManezinhos = [
   {
     id: "1",
@@ -123,22 +117,6 @@ export default function ComunidadePage() {
                 />
               </div>
               
-            </div>
-
-            {/* Filter Tabs */}
-            <div className="flex gap-2">
-              {filters.map((filter) => (
-                <button
-                  key={filter.label}
-                  className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-                    filter.active
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-muted text-muted-foreground hover:bg-muted/80"
-                  }`}
-                >
-                  {filter.label}
-                </button>
-              ))}
             </div>
 
             {/* Featured Post */}
