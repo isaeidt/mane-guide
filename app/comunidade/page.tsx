@@ -5,7 +5,14 @@ import { useState } from "react"
 import { Header } from "@/components/header"
 import { CommunityPost } from "@/components/community-post"
 import { PlaceCard } from "@/components/place-card"
-import { Heart, MessageCircle, Share2, PlusCircle, TrendingUp } from "lucide-react"
+import { Heart, MessageCircle, Share2, PlusCircle, TrendingUp, X, ImagePlus } from "lucide-react"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
 
 const filters = [
   { label: "Recentes", active: true },
@@ -84,6 +91,8 @@ const posts = [
 
 export default function ComunidadePage() {
   const [featuredLiked, setFeaturedLiked] = useState(false)
+  const [isPostModalOpen, setIsPostModalOpen] = useState(false)
+  const [postContent, setPostContent] = useState("")
 
   return (
     <div className="min-h-screen">
@@ -93,15 +102,27 @@ export default function ComunidadePage() {
         <div className="grid gap-6 lg:grid-cols-3">
           {/* Main Feed */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Header com mascote raposa */}
+            {/* Header com mascote  */}
             <div className="flex items-end gap-4">
               <div className="flex-1 flex items-center justify-between">
                 <h1 className="text-2xl font-bold text-foreground">O que você descobriu hoje?</h1>
-                <button className="flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground">
+                <button 
+                  onClick={() => setIsPostModalOpen(true)}
+                  className="flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground"
+                >
                   <PlusCircle className="h-4 w-4" />
                   Postar uma dica
                 </button>
+                <Image
+                  src="/bonicos/pitch-(11).png"
+                  alt="Mascote com programa na mão"
+                  width={130}
+                  height={130}
+                  className="object-contain"
+                  style={{ mixBlendMode: "multiply" }}
+                />
               </div>
+              
             </div>
 
             {/* Filter Tabs */}
@@ -124,13 +145,10 @@ export default function ComunidadePage() {
             <div className="overflow-hidden rounded-2xl border border-border bg-card">
               <div className="p-4">
                 <div className="mb-3 flex items-center gap-3">
-                  <Image
-                    src={featuredPost.author.avatar}
-                    alt={featuredPost.author.name}
-                    width={44}
-                    height={44}
-                    className="rounded-full"
-                  />
+                  <Avatar className="h-11 w-11 border-2 border-primary/20">
+                    <AvatarImage src={featuredPost.author.avatar} alt={featuredPost.author.name} />
+                    <AvatarFallback>{featuredPost.author.name.charAt(0)}</AvatarFallback>
+                  </Avatar>
                   <div>
                     <p className="font-medium text-foreground">{featuredPost.author.name}</p>
                     <p className="text-xs text-muted-foreground">{featuredPost.author.role}</p>
@@ -177,13 +195,10 @@ export default function ComunidadePage() {
                 {topManezinhos.map((user, i) => (
                   <div key={user.id} className="flex items-center gap-3">
                     <span className="w-5 text-center text-sm font-bold text-muted-foreground">{i + 1}</span>
-                    <Image
-                      src={user.avatar}
-                      alt={user.name}
-                      width={36}
-                      height={36}
-                      className="rounded-full"
-                    />
+                    <Avatar className="h-9 w-9 border-2 border-primary/20">
+                      <AvatarImage src={user.avatar} alt={user.name} />
+                      <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                    </Avatar>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium truncate">{user.name}</p>
                       <p className="text-xs text-muted-foreground">{user.posts} posts</p>
@@ -228,6 +243,48 @@ export default function ComunidadePage() {
           </div>
         </div>
       </main>
+
+      {/* Modal para criar post */}
+      <Dialog open={isPostModalOpen} onOpenChange={setIsPostModalOpen}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-bold">Compartilhe sua dica</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="flex items-start gap-3">
+              <Avatar className="h-10 w-10 border-2 border-primary/20">
+                <AvatarImage src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80" alt="Você" />
+                <AvatarFallback>V</AvatarFallback>
+              </Avatar>
+              <div className="flex-1">
+                <textarea
+                  placeholder="O que você descobriu de legal hoje? Conta pra gente!"
+                  value={postContent}
+                  onChange={(e) => setPostContent(e.target.value)}
+                  className="w-full resize-none rounded-xl border border-border bg-background p-3 text-sm placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary min-h-[120px]"
+                />
+              </div>
+            </div>
+            
+            <div className="flex items-center justify-between border-t border-border pt-4">
+              <button className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-muted transition-colors">
+                <ImagePlus className="h-5 w-5" />
+                Adicionar foto
+              </button>
+              <button 
+                onClick={() => {
+                  setIsPostModalOpen(false)
+                  setPostContent("")
+                }}
+                disabled={!postContent.trim()}
+                className="rounded-full bg-primary px-5 py-2 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Publicar
+              </button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

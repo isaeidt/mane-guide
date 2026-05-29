@@ -3,13 +3,16 @@
 import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { useSearchParams } from "next/navigation"
+import { useSearchParams, useRouter } from "next/navigation"
 import { Eye, EyeOff, ArrowRight } from "lucide-react"
+import { useAuth } from "@/lib/auth-context"
 
 type LoginMode = "usuario" | "estabelecimento"
 
 export default function LoginPage() {
   const searchParams = useSearchParams()
+  const router = useRouter()
+  const { login } = useAuth()
   const modoParam = searchParams.get("modo") as LoginMode | null
   const [mode, setMode] = useState<LoginMode>(
     modoParam === "estabelecimento" ? "estabelecimento" : "usuario"
@@ -23,6 +26,27 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [error, setError] = useState("")
+  const [loading, setLoading] = useState(false)
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    setError("")
+    if (!email || !password) {
+      setError("Preencha e-mail e senha para entrar.")
+      return
+    }
+    setLoading(true)
+    setTimeout(() => {
+      const success = login(email, password, mode)
+      if (success) {
+        router.push(mode === "estabelecimento" ? "/estabelecimento" : "/")
+      } else {
+        setError("Credenciais inválidas. Tente novamente.")
+        setLoading(false)
+      }
+    }, 600)
+  }
 
   const config = {
     usuario: {
@@ -147,7 +171,7 @@ export default function LoginPage() {
               {c.sub}
             </p>
 
-            <form onSubmit={(e) => e.preventDefault()} className="flex flex-col gap-5">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-5">
               {/* Email */}
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
@@ -190,13 +214,27 @@ export default function LoginPage() {
                 </div>
               </div>
 
+              {/* Error */}
+              {error && (
+                <p className="rounded-lg bg-destructive/10 px-4 py-2.5 text-sm font-medium text-destructive">
+                  {error}
+                </p>
+              )}
+
               {/* CTA */}
               <button
                 type="submit"
-                className="mt-2 flex h-13 items-center justify-center gap-2 rounded-xl bg-primary py-3.5 text-base font-semibold text-primary-foreground transition-opacity hover:opacity-90 active:scale-[0.98]"
+                disabled={loading}
+                className="mt-2 flex h-13 items-center justify-center gap-2 rounded-xl bg-primary py-3.5 text-base font-semibold text-primary-foreground transition-opacity hover:opacity-90 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                {c.cta}
-                <ArrowRight className="h-4 w-4" />
+                {loading ? (
+                  <span className="h-4 w-4 animate-spin rounded-full border-2 border-primary-foreground border-t-transparent" />
+                ) : (
+                  <>
+                    {c.cta}
+                    <ArrowRight className="h-4 w-4" />
+                  </>
+                )}
               </button>
             </form>
 

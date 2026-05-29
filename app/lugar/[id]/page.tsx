@@ -2,6 +2,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Sidebar } from "@/components/sidebar"
 import { Header } from "@/components/header"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { 
   MapPin, 
   Heart, 
@@ -202,13 +203,10 @@ export default function LugarPage({
                     className="rounded-xl bg-muted/50 p-4"
                   >
                     <div className="mb-2 flex items-center gap-2">
-                      <Image
-                        src={tip.avatar}
-                        alt={tip.author}
-                        width={32}
-                        height={32}
-                        className="rounded-full"
-                      />
+                      <Avatar className="h-8 w-8 border-2 border-primary/20">
+                        <AvatarImage src={tip.avatar} alt={tip.author} />
+                        <AvatarFallback>{tip.author.charAt(0)}</AvatarFallback>
+                      </Avatar>
 
                       <span className="text-sm font-medium">
                         {tip.author}

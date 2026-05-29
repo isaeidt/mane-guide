@@ -4,6 +4,7 @@ import Image from "next/image"
 import { Heart, MessageCircle, Share2 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useState } from "react"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 interface CommunityPostProps {
   id: string
@@ -41,13 +42,10 @@ export function CommunityPost({
     >
       {/* Author */}
       <div className="mb-3 flex items-center gap-3">
-        <Image
-          src={author.avatar}
-          alt={author.name}
-          width={40}
-          height={40}
-          className="rounded-full"
-        />
+        <Avatar className="h-10 w-10 border-2 border-primary/20">
+          <AvatarImage src={author.avatar} alt={author.name} />
+          <AvatarFallback>{author.name.charAt(0)}</AvatarFallback>
+        </Avatar>
         <div>
           <p className="font-medium text-foreground">{author.name}</p>
           {author.role && (

@@ -7,7 +7,7 @@ import { Compass, Heart, Map, Calendar, X, User, Store } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const navItems = [
-  { href: "/explorar", label: "Explorar", icon: Compass },
+  { href: "/", label: "Explorar", icon: Compass },
   { href: "/favoritos", label: "Favoritos", icon: Heart },
   { href: "/mapa", label: "Mapa da Ilha", icon: Map },
   { href: "/eventos", label: "Eventos", icon: Calendar },

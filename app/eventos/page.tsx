@@ -82,10 +82,10 @@ export default function EventosPage() {
           </div>
           <div className="hidden lg:block">
             <Image
-              src="/bonicos/pitch-(6).png"
+              src="/bonicos/pitch-(10).png"
               alt="Mascote com programa na mão"
-              width={120}
-              height={120}
+              width={170}
+              height={170}
               className="object-contain"
               style={{ mixBlendMode: "multiply" }}
             />
