@@ -3,10 +3,9 @@
 import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import {
   LayoutDashboard,
-  Heart,
   Store,
   Calendar,
   Camera,
@@ -40,17 +39,54 @@ import {
 const mockEvents = [
   {
     id: 1,
-    name: "Jazz & Ostras",
+    name: "Noite de Jazz & Ostras",
     date: "Hoje, 19:00",
-    local: "Lagoa da Conceição",
+    local: "Jazz & Ostras",
     image: "/jazz.jpg",
   },
   {
     id: 2,
-    name: "Happy Hour Manezinho",
-    date: "Quinta, 17:00",
-    local: "Beira Mar",
+    name: "Happy Hour do Mané",
+    date: "Quinta, 18:30",
+    local: "Bar do Mané",
     image: "https://images.unsplash.com/photo-1436076863939-06870fe779c2?w=80&q=80",
+  },
+  {
+    id: 3,
+    name: "Festival do Bilhete",
+    date: "Sábado, 20:00",
+    local: "Bar do Arante",
+    image: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=80&q=80",
+  },
+]
+
+const mockEstablishments = [
+  {
+    id: 1,
+    name: "Bar do Mané",
+    category: "Gastronomia",
+    location: "Centrinho da Lagoa",
+    rating: 4.6,
+    status: "Aberto",
+    image: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=400&q=80",
+  },
+  {
+    id: 2,
+    name: "Bar do Arante",
+    category: "Gastronomia",
+    location: "Ribeirão da Ilha",
+    rating: 4.8,
+    status: "Aberto",
+    image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&q=80",
+  },
+  {
+    id: 3,
+    name: "Jazz & Ostras",
+    category: "Noite",
+    location: "Centro",
+    rating: 4.7,
+    status: "A partir das 18h",
+    image: "/jazz.jpg",
   },
 ]
 
@@ -70,7 +106,6 @@ const quickActions = [
 
 const sidebarLinks = [
   { href: "/estabelecimento", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/estabelecimento/favoritos", label: "Favoritos", icon: Heart },
   { href: "/estabelecimento/meus-locais", label: "Meus Estabelecimentos", icon: Store },
   { href: "/estabelecimento/eventos", label: "Eventos", icon: Calendar },
 ]
@@ -78,7 +113,7 @@ const sidebarLinks = [
 export default function EstabelecimentoPage() {
   const { user, logout, isAuthenticated, isLoading } = useAuth()
   const router = useRouter()
-  const [activeLink, setActiveLink] = useState("/estabelecimento")
+  const pathname = usePathname()
   const [isEventModalOpen, setIsEventModalOpen] = useState(false)
   const [eventForm, setEventForm] = useState({
     name: "",
@@ -147,11 +182,11 @@ export default function EstabelecimentoPage() {
         <nav className="flex-1 space-y-1 p-4">
           {sidebarLinks.map((item) => {
             const Icon = item.icon
-            const isActive = activeLink === item.href
+            const isActive = pathname === item.href
             return (
-              <button
+              <Link
                 key={item.href}
-                onClick={() => setActiveLink(item.href)}
+                href={item.href}
                 className={cn(
                   "flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition-colors",
                   isActive
@@ -161,7 +196,7 @@ export default function EstabelecimentoPage() {
               >
                 <Icon className="h-4 w-4 shrink-0" />
                 {item.label}
-              </button>
+              </Link>
             )
           })}
         </nav>
@@ -192,19 +227,19 @@ export default function EstabelecimentoPage() {
           {/* Nav tabs (desktop) */}
           <nav className="hidden items-center gap-1 md:flex">
             <Link
-              href="/"
+              href="/estabelecimento"
               className="rounded-full px-4 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
             >
               Dashboard
             </Link>
             <Link
-              href="/favoritos"
+              href="/estabelecimento/meus-locais"
               className="rounded-full px-4 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
             >
-              Favoritos
+              Meus Estabelecimentos
             </Link>
             <Link
-              href="/eventos"
+              href="/estabelecimento/eventos"
               className="rounded-full px-4 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
             >
               Eventos
@@ -288,6 +323,48 @@ export default function EstabelecimentoPage() {
                     <Icon className={cn("h-5 w-5", color)} />
                     <span className="text-2xl font-bold text-foreground">{value}</span>
                     <span className="text-xs text-muted-foreground">{label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Meus estabelecimentos */}
+            <div className="overflow-hidden rounded-2xl border border-border bg-card">
+              <div className="flex items-center justify-between border-b border-border px-6 py-4">
+                <div className="flex items-center gap-2">
+                  <Store className="h-4 w-4 text-primary" />
+                  <h2 className="font-semibold text-foreground">Meus Estabelecimentos</h2>
+                </div>
+                <button className="flex items-center gap-1 text-sm font-medium text-primary hover:underline">
+                  <Plus className="h-3.5 w-3.5" />
+                  Adicionar
+                </button>
+              </div>
+              <div className="divide-y divide-border">
+                {mockEstablishments.map((place) => (
+                  <div key={place.id} className="flex items-center gap-4 px-6 py-4">
+                    <Image
+                      src={place.image}
+                      alt={place.name}
+                      width={56}
+                      height={56}
+                      className="h-14 w-14 shrink-0 rounded-xl object-cover"
+                    />
+                    <div className="min-w-0 flex-1">
+                      <p className="font-medium text-foreground">{place.name}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {place.category} &middot; {place.location}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-1 rounded-full bg-muted px-2 py-1 text-xs text-muted-foreground">
+                        <Star className="h-3.5 w-3.5 text-amber-500" />
+                        {place.rating}
+                      </div>
+                      <span className="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-medium text-emerald-700">
+                        {place.status}
+                      </span>
+                    </div>
                   </div>
                 ))}
               </div>
