@@ -59,7 +59,7 @@ export default function PlaceDetail({ place }: { place: Place }) {
           <button
             onClick={toggleFavorite}
             className="rounded-full border border-border p-2 hover:bg-muted"
-            aria-label={isFavorited ? "Remover dos favoritos" : "Adicionar aos favoritos"}
+            aria-label={isFavorited ? "Remover dos itens salvos" : "Adicionar aos itens salvos"}
           >
             <Bookmark className={`h-5 w-5 ${isFavorited ? "fill-primary text-primary" : ""}`} />
           </button>

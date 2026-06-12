@@ -112,7 +112,7 @@ export function PlaceCard({
         <button
           className="absolute right-3 top-3 rounded-full bg-white/80 p-2 backdrop-blur-sm transition-colors hover:bg-white"
           onClick={handleFavorite}
-          aria-label={isFavorited ? "Remover dos favoritos" : "Adicionar aos favoritos"}
+          aria-label={isFavorited ? "Remover dos itens salvos" : "Adicionar aos itens salvos"}
         >
           <Bookmark
             className={cn(

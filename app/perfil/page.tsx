@@ -24,7 +24,7 @@ import {
 const userStats = {
   posts: 23,
   likes: 156,
-  favoritos: 12,
+  salvos: 12,
   badges: 4,
 }
 
@@ -44,7 +44,7 @@ const recentActivity = [
   {
     id: 3,
     type: "favorite",
-    text: "Salvou Bar do Arante nos favoritos",
+    text: "Salvou Bar do Arante",
     time: "1d atras",
   },
 ]
@@ -56,7 +56,7 @@ const badges = [
   { id: 4, name: "Primeiro Post", icon: "✨", desc: "Criou o primeiro post" },
 ]
 
-const favoritos = [
+const salvos = [
   {
     id: "lagoa-conceicao",
     name: "Lagoa da Conceicao",
@@ -163,8 +163,8 @@ export default function PerfilPage() {
                 <p className="text-xs text-muted-foreground">Curtidas</p>
               </div>
               <div className="text-center">
-                <p className="text-xl font-bold text-foreground">{userStats.favoritos}</p>
-                <p className="text-xs text-muted-foreground">Favoritos</p>
+                <p className="text-xl font-bold text-foreground">{userStats.salvos}</p>
+                <p className="text-xs text-muted-foreground">Salvos</p>
               </div>
               <div className="text-center">
                 <p className="text-xl font-bold text-foreground">{userStats.badges}</p>
@@ -204,7 +204,7 @@ export default function PerfilPage() {
               <div className="mb-4 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Bookmark className="h-5 w-5 text-primary" />
-                  <h2 className="text-lg font-semibold text-foreground">Lugares Favoritos</h2>
+                  <h2 className="text-lg font-semibold text-foreground">Lugares Salvos</h2>
                 </div>
                 <Link
                   href="/favoritos"
@@ -214,7 +214,7 @@ export default function PerfilPage() {
                 </Link>
               </div>
               <div className="grid gap-4 sm:grid-cols-3">
-                {favoritos.map((place) => (
+                {salvos.map((place) => (
                   <PlaceCard
                     key={place.id}
                     id={place.id}
