@@ -93,12 +93,14 @@ function hashString(value: string) {
 function formatPlaceLabel(value: string) {
   return value
     .replace(/-/g, " ")
-    .replace(/\b\w/g, (character) => character.toUpperCase())
+    .replace(/(^|\s)(\p{L})/gu, (_, prefix: string, character: string) => {
+      return `${prefix}${character.toLocaleUpperCase("pt-BR")}`
+    })
 }
 
 const defaultTips = (id: string) => {
   const seed = hashString(id)
-  const label = formatPlaceLabel(id).toLowerCase()
+  const label = formatPlaceLabel(id).toLocaleLowerCase("pt-BR")
 
   const isPraia = /praia|ilha|matadeiro|mare|praia|praia-do|campeche/.test(id)
   const isTrilha = /trilha|mirante|lagoinha|pedra|costao|cachoeira/.test(id)

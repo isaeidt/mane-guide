@@ -4,8 +4,15 @@ import { Analytics } from '@vercel/analytics/next'
 import { AuthProvider } from '@/lib/auth-context'
 import './globals.css'
 
-const _geist = Geist({ subsets: ["latin"] });
-const _geistMono = Geist_Mono({ subsets: ["latin"] });
+const geist = Geist({
+  subsets: ["latin"],
+  variable: "--font-geist-sans",
+});
+
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
+});
 
 export const metadata: Metadata = {
   title: 'ManéGuide - Explore Floripa como um verdadeiro Manézinho',
@@ -35,7 +42,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body className="font-sans antialiased bg-background">
+      <body className={`${geist.variable} ${geistMono.variable} font-sans antialiased bg-background`}>
         <AuthProvider>
           {children}
         </AuthProvider>
