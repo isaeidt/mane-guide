@@ -4,7 +4,7 @@ import Image from "next/image"
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { ChevronLeft, MapPin, Heart, Share2, Clock, Star } from "lucide-react"
+import { ChevronLeft, MapPin, Share2, Clock, Star, Bookmark } from "lucide-react"
 import type { Place } from "@/lib/places"
 
 export default function PlaceDetail({ place }: { place: Place }) {
@@ -61,7 +61,7 @@ export default function PlaceDetail({ place }: { place: Place }) {
             className="rounded-full border border-border p-2 hover:bg-muted"
             aria-label={isFavorited ? "Remover dos favoritos" : "Adicionar aos favoritos"}
           >
-            <Heart className={`h-5 w-5 ${isFavorited ? "fill-primary text-primary" : ""}`} />
+            <Bookmark className={`h-5 w-5 ${isFavorited ? "fill-primary text-primary" : ""}`} />
           </button>
 
           <button className="rounded-full border border-border p-2 hover:bg-muted">

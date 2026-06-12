@@ -1,6 +1,6 @@
 import Image from "next/image"
 import { Header } from "@/components/header"
-import { Calendar, MapPin, Clock, Heart, ChevronRight } from "lucide-react"
+import { Calendar, MapPin, Clock, Heart, ChevronRight, Bookmark } from "lucide-react"
 
 const filters = [
   { label: "Todos", active: true },
@@ -163,7 +163,7 @@ export default function EventosPage() {
                   {event.category}
                 </span>
                 <button className="absolute right-3 top-3 rounded-full bg-white/80 p-2 backdrop-blur-sm hover:bg-white">
-                  <Heart className="h-4 w-4" />
+                  <Bookmark className="h-4 w-4" />
                 </button>
               </div>
               <div className="p-4">

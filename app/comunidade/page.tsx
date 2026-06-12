@@ -5,7 +5,7 @@ import { useState } from "react"
 import { Header } from "@/components/header"
 import { CommunityPost } from "@/components/community-post"
 import { PlaceCard } from "@/components/place-card"
-import { Heart, MessageCircle, Share2, PlusCircle, TrendingUp, X, ImagePlus } from "lucide-react"
+import { Heart, MessageCircle, Share2, PlusCircle, TrendingUp, X, ImagePlus, Bookmark } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   Dialog,
@@ -142,7 +142,7 @@ export default function ComunidadePage() {
                   onClick={() => setFeaturedLiked(!featuredLiked)}
                   className="flex items-center gap-1.5 text-muted-foreground hover:text-primary transition-colors"
                 >
-                  <Heart className={`h-5 w-5 ${featuredLiked ? "fill-primary text-primary" : ""}`} />
+                  <Bookmark className={`h-5 w-5 ${featuredLiked ? "fill-primary text-primary" : ""}`} />
                   <span className="text-sm">{featuredPost.likes} Curtidas</span>
                 </button>
                 <button className="flex items-center gap-1.5 text-muted-foreground hover:text-primary transition-colors">
