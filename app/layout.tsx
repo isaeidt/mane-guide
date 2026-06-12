@@ -15,23 +15,24 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'ManéGuide - Explore Floripa como um verdadeiro Manézinho',
+  title: 'ManéGuide - Descubra Floripa',
   description: 'Descubra os melhores lugares de Florianópolis com dicas de moradores locais',
   icons: {
     icon: [
       {
-        url: 'public/logo.png',
+        url: '/logo.png',
         media: '(prefers-color-scheme: light)',
+        
       },
       {
-        url: 'public/logo.png',
+        url: '/logo.png',
         media: '(prefers-color-scheme: dark)',
       },
       {
-        url: 'public/logo.png',
+        url: '/logo.png',
       },
     ],
-    apple: 'public/logo.png',
+    apple: '/logo.png',
   },
 }
 

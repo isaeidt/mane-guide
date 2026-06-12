@@ -77,8 +77,8 @@ export function Header() {
               <Image
                 src="/logo.png"
                 alt="ManéGuide"
-                width={80}
-                height={80}
+                width={50}
+                height={50}
                 className="rounded-full"
               />
               <span className="hidden text-lg font-bold text-foreground sm:block">

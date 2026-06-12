@@ -73,7 +73,7 @@ export default function EventosEstabelecimentoPage() {
       <aside className="hidden w-64 flex-col border-r border-border bg-card md:flex">
         <div className="flex h-16 items-center gap-2.5 border-b border-border px-6">
           <Link href="/" className="flex items-center gap-2.5">
-            <Image src="/logo.png" alt="ManéGuide" width={34} height={34} className="rounded-full" />
+            <Image src="/logo.png" alt="ManéGuide" width={20} height={20} className="rounded-full" />
             <span className="text-lg font-bold text-foreground">ManéGuide</span>
           </Link>
         </div>
@@ -126,7 +126,7 @@ export default function EventosEstabelecimentoPage() {
       <div className="flex flex-1 flex-col">
         <header className="flex h-16 items-center justify-between border-b border-border bg-card px-6">
           <Link href="/" className="flex items-center gap-2 md:hidden">
-            <Image src="/logo.png" alt="ManéGuide" width={30} height={30} className="rounded-full" />
+            <Image src="/logo.png" alt="ManéGuide" width={20} height={20} className="rounded-full" />
             <span className="font-bold text-foreground">ManéGuide</span>
           </Link>
 

@@ -78,7 +78,7 @@ export function LoginClient() {
       {/* Header */}
       <header className="flex h-16 items-center justify-between border-b border-border bg-card px-8">
         <Link href="/" className="flex items-center gap-2">
-          <Image src="/logo.png" alt="ManéGuide" width={36} height={36} className="rounded-full" />
+          <Image src="/logo.png" alt="ManéGuide" width={20} height={20} className="rounded-full" />
           <span className="text-xl font-bold text-foreground">ManéGuide</span>
         </Link>
         <nav className="hidden items-center gap-8 md:flex">
