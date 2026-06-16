@@ -5,11 +5,13 @@ import { useState } from "react"
 import { Header } from "@/components/header"
 import { CommunityPost } from "@/components/community-post"
 import { PlaceCard } from "@/components/place-card"
+import { DocumentTitle } from "@/components/document-title"
 import { Heart, MessageCircle, Share2, PlusCircle, TrendingUp, X, ImagePlus, Bookmark } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
@@ -90,9 +92,10 @@ export default function ComunidadePage() {
 
   return (
     <div className="min-h-screen">
+      <DocumentTitle title="Comunidade" />
       <Header />
 
-      <main className="mx-auto max-w-6xl p-6">
+      <main id="conteudo-principal" tabIndex={-1} className="mx-auto max-w-6xl p-6">
         <div className="grid gap-6 lg:grid-cols-3">
           {/* Main Feed */}
           <div className="lg:col-span-2 space-y-6">
@@ -101,6 +104,7 @@ export default function ComunidadePage() {
               <div className="flex-1 flex items-center justify-between">
                 <h1 className="text-2xl font-bold text-foreground">O que você descobriu hoje?</h1>
                 <button 
+                  type="button"
                   onClick={() => setIsPostModalOpen(true)}
                   className="flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground"
                 >
@@ -135,21 +139,24 @@ export default function ComunidadePage() {
                 <p className="mb-4 text-sm text-foreground">{featuredPost.content}</p>
               </div>
               <div className="relative aspect-video">
-                <Image src={featuredPost.image} alt="" fill className="object-cover" />
+                <Image src={featuredPost.image} alt="Foto da publicação em destaque da comunidade" fill className="object-cover" />
               </div>
               <div className="flex items-center gap-4 border-t border-border p-4">
                 <button
+                  type="button"
                   onClick={() => setFeaturedLiked(!featuredLiked)}
+                  aria-pressed={featuredLiked}
+                  aria-label={`${featuredLiked ? "Remover curtida" : "Curtir"} publicação em destaque`}
                   className="flex items-center gap-1.5 text-muted-foreground hover:text-primary transition-colors"
                 >
                   <Bookmark className={`h-5 w-5 ${featuredLiked ? "fill-primary text-primary" : ""}`} />
                   <span className="text-sm">{featuredPost.likes} Curtidas</span>
                 </button>
-                <button className="flex items-center gap-1.5 text-muted-foreground hover:text-primary transition-colors">
+                <button type="button" aria-label={`Ver ${featuredPost.comments} respostas da publicação em destaque`} className="flex items-center gap-1.5 text-muted-foreground hover:text-primary transition-colors">
                   <MessageCircle className="h-5 w-5" />
                   <span className="text-sm">{featuredPost.comments} Respostas</span>
                 </button>
-                <button className="ml-auto text-muted-foreground hover:text-primary transition-colors">
+                <button type="button" aria-label="Compartilhar publicação em destaque" className="ml-auto text-muted-foreground hover:text-primary transition-colors">
                   <Share2 className="h-5 w-5" />
                 </button>
               </div>
@@ -204,7 +211,7 @@ export default function ComunidadePage() {
                 <p className="text-sm text-muted-foreground">
                   Poste uma foto do seu pico favorito da Lagoinha e concorra a um passeio de barco gratúito.
                 </p>
-                <button className="mt-3 w-full rounded-xl border border-primary py-2 text-sm font-semibold text-primary transition-colors hover:bg-sidebar-accent">
+                <button type="button" className="mt-3 w-full rounded-xl border border-primary py-2 text-sm font-semibold text-primary transition-colors hover:bg-sidebar-accent">
                   Participar
                 </button>
               </div>
@@ -227,6 +234,9 @@ export default function ComunidadePage() {
         <DialogContent className="sm:max-w-lg">
           <DialogHeader>
             <DialogTitle className="text-xl font-bold">Compartilhe sua dica</DialogTitle>
+            <DialogDescription className="sr-only">
+              Escreva uma dica para a comunidade e publique quando terminar.
+            </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
             <div className="flex items-start gap-3">
@@ -235,7 +245,11 @@ export default function ComunidadePage() {
                 <AvatarFallback>V</AvatarFallback>
               </Avatar>
               <div className="flex-1">
+                <label htmlFor="community-post-content" className="sr-only">
+                  Conte sua dica para a comunidade
+                </label>
                 <textarea
+                  id="community-post-content"
                   placeholder="O que você descobriu de legal hoje? Conta pra gente!"
                   value={postContent}
                   onChange={(e) => setPostContent(e.target.value)}
@@ -245,11 +259,12 @@ export default function ComunidadePage() {
             </div>
             
             <div className="flex items-center justify-between border-t border-border pt-4">
-              <button className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-muted transition-colors">
+              <button type="button" className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-muted transition-colors">
                 <ImagePlus className="h-5 w-5" />
                 Adicionar foto
               </button>
               <button 
+                type="button"
                 onClick={() => {
                   setIsPostModalOpen(false)
                   setPostContent("")

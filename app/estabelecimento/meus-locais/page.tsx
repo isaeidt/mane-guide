@@ -7,6 +7,7 @@ import { usePathname, useRouter } from "next/navigation"
 import { LayoutDashboard, Store, Calendar, LogOut, Star } from "lucide-react"
 import { useAuth } from "@/lib/auth-context"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { DocumentTitle } from "@/components/document-title"
 import { cn } from "@/lib/utils"
 
 const sidebarLinks = [
@@ -75,6 +76,7 @@ export default function MeusLocaisPage() {
 
   return (
     <div className="flex min-h-screen" style={{ backgroundColor: "#F8F4EF" }}>
+      <DocumentTitle title="Estabelecimentos do Parceiro" />
       {/* Sidebar */}
       <aside className="hidden w-64 flex-col border-r border-border bg-card md:flex">
         <div className="flex h-16 items-center gap-2.5 border-b border-border px-6">
@@ -95,7 +97,7 @@ export default function MeusLocaisPage() {
           </div>
         </div>
 
-        <nav className="flex-1 space-y-1 p-4">
+        <nav aria-label="Navegação do parceiro" className="flex-1 space-y-1 p-4">
           {sidebarLinks.map((item) => {
             const Icon = item.icon
             const isActive = pathname === item.href
@@ -103,6 +105,7 @@ export default function MeusLocaisPage() {
               <Link
                 key={item.href}
                 href={item.href}
+                aria-current={isActive ? "page" : undefined}
                 className={cn(
                   "flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition-colors",
                   isActive
@@ -136,7 +139,7 @@ export default function MeusLocaisPage() {
             <span className="font-bold text-foreground">ManéGuide</span>
           </Link>
 
-          <nav className="hidden items-center gap-1 md:flex">
+          <nav aria-label="Seções do parceiro" className="hidden items-center gap-1 md:flex">
             <Link
               href="/estabelecimento"
               className="rounded-full px-4 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
@@ -157,7 +160,7 @@ export default function MeusLocaisPage() {
           </Avatar>
         </header>
 
-        <main className="flex-1 overflow-y-auto p-6">
+        <main id="conteudo-principal" tabIndex={-1} className="flex-1 overflow-y-auto p-6">
           <div className="mx-auto max-w-4xl space-y-6">
             <div className="overflow-hidden rounded-2xl border border-border bg-card">
               <div className="flex items-center justify-between border-b border-border px-6 py-4">
@@ -165,7 +168,7 @@ export default function MeusLocaisPage() {
                   <Store className="h-4 w-4 text-primary" />
                   <h2 className="font-semibold text-foreground">Meus Estabelecimentos</h2>
                 </div>
-                <button className="flex items-center gap-1 text-sm font-medium text-primary hover:underline">
+                <button type="button" className="flex items-center gap-1 text-sm font-medium text-primary hover:underline">
                   Adicionar
                 </button>
               </div>

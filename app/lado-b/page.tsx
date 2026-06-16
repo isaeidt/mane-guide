@@ -2,6 +2,11 @@ import Image from "next/image"
 import { Header } from "@/components/header"
 import { PlaceCard } from "@/components/place-card"
 import { Grid, List } from "lucide-react"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Lado B",
+}
 
 const categoryFilters = [
   { label: "Todos", count: 12, active: true },
@@ -66,7 +71,7 @@ export default function LadoBPage() {
     <div className="min-h-screen">
       <Header />
 
-      <main className="mx-auto max-w-6xl p-6">
+      <main id="conteudo-principal" tabIndex={-1} className="mx-auto max-w-6xl p-6">
         {/* Page Header com mascote urso com mapa */}
         <div className="mb-6 flex items-end gap-6">
           <div className="flex-1">
@@ -96,6 +101,8 @@ export default function LadoBPage() {
               {categoryFilters.map((cat) => (
                 <li key={cat.label}>
                   <button
+                    type="button"
+                    aria-pressed={cat.active}
                     className={`flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm transition-colors ${
                       cat.active
                         ? "bg-sidebar-accent text-primary font-semibold"
@@ -117,10 +124,10 @@ export default function LadoBPage() {
                 Mostrando {places.length} lugares
               </p>
               <div className="flex items-center gap-2">
-                <button className="rounded-lg bg-muted p-2">
+                <button type="button" aria-label="Exibir lugares em grade" aria-pressed={true} className="rounded-lg bg-muted p-2">
                   <Grid className="h-4 w-4" />
                 </button>
-                <button className="rounded-lg p-2 text-muted-foreground hover:bg-muted">
+                <button type="button" aria-label="Exibir lugares em lista" aria-pressed={false} className="rounded-lg p-2 text-muted-foreground hover:bg-muted">
                   <List className="h-4 w-4" />
                 </button>
               </div>

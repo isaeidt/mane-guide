@@ -3,6 +3,7 @@
 import Image from "next/image"
 import { useEffect, useMemo, useState } from "react"
 import { Header } from "@/components/header"
+import { DocumentTitle } from "@/components/document-title"
 import { PlaceCard } from "@/components/place-card"
 import { Search, Grid, List } from "lucide-react"
 import { places } from "@/lib/places"
@@ -147,9 +148,10 @@ export default function FavoritosPage() {
 
   return (
     <div className="min-h-screen">
+      <DocumentTitle title="Favoritos" />
       <Header />
 
-      <main className="mx-auto max-w-6xl p-6">
+      <main id="conteudo-principal" tabIndex={-1} className="mx-auto max-w-6xl p-6">
         {/* Page Header */}
         <div className="mb-8 flex items-end gap-6">
           <div className="flex-1">
@@ -174,9 +176,13 @@ export default function FavoritosPage() {
         {/* Search */}
         <div className="mb-6">
           <div className="relative max-w-md">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <label htmlFor="favorites-search" className="sr-only">
+              Buscar nos itens salvos
+            </label>
+            <Search aria-hidden="true" className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <input
-              type="text"
+              id="favorites-search"
+              type="search"
               placeholder="Buscar nos itens salvos..."
               value={searchQuery}
               onChange={(event) => setSearchQuery(event.target.value)}
@@ -193,6 +199,8 @@ export default function FavoritosPage() {
               {favoriteFilters.map((filter) => (
                 <li key={filter.label}>
                   <button
+                    type="button"
+                    aria-pressed={filter.active}
                     className={`flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm transition-colors ${
                       filter.active
                         ? "bg-sidebar-accent text-primary font-semibold"
@@ -214,10 +222,10 @@ export default function FavoritosPage() {
                 {filteredPlaces.length} de {favoritePlaces.length} lugares salvos
               </p>
               <div className="flex items-center gap-2">
-                <button className="rounded-lg bg-muted p-2">
+                <button type="button" aria-label="Exibir favoritos em grade" aria-pressed={true} className="rounded-lg bg-muted p-2">
                   <Grid className="h-4 w-4" />
                 </button>
-                <button className="rounded-lg p-2 text-muted-foreground hover:bg-muted">
+                <button type="button" aria-label="Exibir favoritos em lista" aria-pressed={false} className="rounded-lg p-2 text-muted-foreground hover:bg-muted">
                   <List className="h-4 w-4" />
                 </button>
               </div>

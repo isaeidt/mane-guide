@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
 import { Header } from "@/components/header"
+import { DocumentTitle } from "@/components/document-title"
 import { useAuth } from "@/lib/auth-context"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { PlaceCard } from "@/components/place-card"
@@ -104,14 +105,15 @@ export default function PerfilPage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <DocumentTitle title="Meu Perfil" />
       <Header />
 
-      <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+      <main id="conteudo-principal" tabIndex={-1} className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
         {/* Profile Header */}
         <div className="mb-8 overflow-hidden rounded-2xl border border-border bg-card">
           {/* Cover */}
           <div className="relative h-32 bg-gradient-to-r from-primary/20 via-primary/10 to-orange-200/20 sm:h-40">
-            <button className="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-full bg-background/80 px-3 py-1.5 text-xs font-medium backdrop-blur-sm transition-colors hover:bg-background">
+            <button type="button" className="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-full bg-background/80 px-3 py-1.5 text-xs font-medium backdrop-blur-sm transition-colors hover:bg-background">
               <Camera className="h-3.5 w-3.5" />
               Editar capa
             </button>

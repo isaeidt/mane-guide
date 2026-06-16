@@ -38,19 +38,16 @@ export function Header() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
 
-  const handleSearch = (
-    e: React.KeyboardEvent<HTMLInputElement>
-  ) => {
-    if (e.key === "Enter") {
-      const term = searchQuery.trim()
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const term = searchQuery.trim()
 
-      if (term) {
-        router.push(`/explorar?query=${encodeURIComponent(term)}`)
-        return
-      }
-
-      router.push("/explorar")
+    if (term) {
+      router.push(`/explorar?query=${encodeURIComponent(term)}`)
+      return
     }
+
+    router.push("/explorar")
   }
 
   return (
@@ -88,7 +85,7 @@ export function Header() {
           </div>
 
           {/* Nav desktop */}
-          <nav className="hidden md:flex items-center gap-1">
+          <nav aria-label="Navegação principal" className="hidden md:flex items-center gap-1">
             {navItems.map((item) => {
               const isActive =
                 pathname === item.href ||
@@ -98,6 +95,7 @@ export function Header() {
                 <Link
                   key={item.href}
                   href={item.href}
+                  aria-current={isActive ? "page" : undefined}
                   className={cn(
                     "rounded-full px-4 py-2 text-sm font-medium transition-colors",
                     isActive
@@ -114,26 +112,41 @@ export function Header() {
           {/* Right side */}
           <div className="flex items-center gap-3">
             {/* Search */}
-            <div className="relative hidden sm:block w-full max-w-xs">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <form
+              role="search"
+              aria-label="Buscar lugares na ilha"
+              onSubmit={handleSearch}
+              className="relative hidden w-full max-w-xs sm:block"
+            >
+              <label htmlFor="header-search" className="sr-only">
+                Buscar lugares na ilha
+              </label>
+              <Search aria-hidden="true" className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <input
-                type="text"
+                id="header-search"
+                type="search"
                 placeholder="Buscar na ilha..."
                 value={searchQuery}
                 onChange={(e) =>
                   setSearchQuery(e.target.value)
                 }
-                onKeyDown={handleSearch}
-                className="h-9 w-full rounded-full border border-border bg-background pl-10 pr-4 text-sm placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                className="h-9 w-full rounded-full border border-border bg-background pl-10 pr-10 text-sm placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
               />
-            </div>
+              <button
+                type="submit"
+                aria-label="Buscar"
+                className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-muted-foreground hover:text-foreground"
+              >
+                <Search className="h-4 w-4" />
+              </button>
+            </form>
 
             {/* Auth */}
             <div className="flex items-center gap-2">
               {isAuthenticated && user ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <button className="outline-none">
+                    <button className="outline-none" aria-label={`Abrir menu da conta de ${user.businessName || user.name}`}>
                       <Avatar className="h-9 w-9 cursor-pointer border-2 border-primary/20 transition-opacity hover:opacity-90">
                         <AvatarImage
                           src={user.avatar}

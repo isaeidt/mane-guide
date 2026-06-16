@@ -15,7 +15,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'ManéGuide - Descubra Floripa',
+  title: {
+    default: 'ManéGuide | Descubra Floripa',
+    template: '%s | ManéGuide',
+  },
   description: 'Descubra os melhores lugares de Florianópolis com dicas de moradores locais',
   icons: {
     icon: [
@@ -44,6 +47,9 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={`${geist.variable} ${geistMono.variable} font-sans antialiased bg-background`}>
+        <a href="#conteudo-principal" className="skip-link">
+          Pular para o conteúdo principal
+        </a>
         <AuthProvider>
           {children}
         </AuthProvider>

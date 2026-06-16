@@ -1,5 +1,10 @@
 import { Header } from "@/components/header"
 import { MapPin, Layers, Navigation } from "lucide-react"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Mapa",
+}
 
 const mapCategories = [
   { label: "Todos", color: "bg-primary", active: true },
@@ -20,7 +25,7 @@ export default function MapaPage() {
     <div className="min-h-screen">
       <Header />
 
-      <main className="relative h-[calc(100vh-64px)]">
+      <main id="conteudo-principal" tabIndex={-1} className="relative h-[calc(100vh-64px)]">
         {/* Map Background */}
         <div className="absolute inset-0 bg-[#e8e0d5]">
           <div className="absolute inset-0 flex items-center justify-center">
@@ -44,6 +49,8 @@ export default function MapaPage() {
               {mapCategories.map((cat) => (
                 <button
                   key={cat.label}
+                  type="button"
+                  aria-pressed={cat.active}
                   className={`flex items-center gap-2 rounded-full px-3 py-1.5 text-sm transition-colors ${
                     cat.active
                       ? "bg-primary text-primary-foreground"
@@ -84,7 +91,7 @@ export default function MapaPage() {
 
         {/* Layer Controls */}
         <div className="absolute right-4 top-4 z-10">
-          <button className="rounded-xl bg-card p-2.5 shadow-lg hover:bg-muted">
+          <button type="button" aria-label="Abrir camadas do mapa" className="rounded-xl bg-card p-2.5 shadow-lg hover:bg-muted">
             <Layers className="h-5 w-5" />
           </button>
         </div>

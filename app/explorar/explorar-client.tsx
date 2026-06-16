@@ -67,7 +67,7 @@ export function ExplorarClient() {
   }
 
   return (
-    <main className="mx-auto max-w-6xl p-6">
+    <main id="conteudo-principal" tabIndex={-1} className="mx-auto max-w-6xl p-6">
       <div className="mb-6 flex items-end gap-6">
         <div className="flex-1">
           <h1 className="text-2xl font-bold text-foreground">Buscar na Ilha</h1>
@@ -93,6 +93,8 @@ export function ExplorarClient() {
             <label className="mb-2 block text-sm font-medium text-muted-foreground">Categoria</label>
             <div className="flex flex-col gap-2">
               <button
+                type="button"
+                aria-pressed={category === null}
                 className={`text-left rounded-md px-3 py-2 ${category === null ? "bg-muted font-semibold" : ""}`}
                 onClick={() => setCategory(null)}
               >
@@ -101,6 +103,8 @@ export function ExplorarClient() {
               {categories.map((c) => (
                 <button
                   key={c}
+                  type="button"
+                  aria-pressed={category === c}
                   className={`text-left rounded-md px-3 py-2 ${category === c ? "bg-primary text-primary-foreground" : ""}`}
                   onClick={() => setCategory((s) => (s === c ? null : c))}
                 >
@@ -116,6 +120,8 @@ export function ExplorarClient() {
               {[1, 2, 3].map((p) => (
                 <button
                   key={p}
+                  type="button"
+                  aria-pressed={price === p}
                   onClick={() => setPrice((cur) => (cur === p ? null : p))}
                   className={`rounded-md px-3 py-1 ${price === p ? "bg-primary text-primary-foreground" : "bg-muted"}`}
                 >
@@ -131,6 +137,8 @@ export function ExplorarClient() {
               {(["sozinho", "date", "galera"] as const).map((s) => (
                 <button
                   key={s}
+                  type="button"
+                  aria-pressed={socialTags.includes(s)}
                   onClick={() => setSocialTags((cur) => toggleArray(cur, s))}
                   className={`rounded-md px-3 py-2 ${socialTags.includes(s) ? "bg-primary text-primary-foreground" : "bg-muted"}`}
                 >
@@ -146,6 +154,8 @@ export function ExplorarClient() {
               {allInterests.map((t) => (
                 <button
                   key={t}
+                  type="button"
+                  aria-pressed={interests.includes(t)}
                   onClick={() => setInterests((cur) => toggleArray(cur, t))}
                   className={`rounded-full px-3 py-1 text-sm ${interests.includes(t) ? "bg-primary text-primary-foreground" : "bg-muted"}`}
                 >
@@ -161,13 +171,19 @@ export function ExplorarClient() {
             <p className="text-sm text-muted-foreground">Lugares encontrados ({filtered.length})</p>
             <div className="flex items-center gap-2">
               <button
+                type="button"
                 onClick={() => setLayout("grid")}
+                aria-label="Exibir resultados em grade"
+                aria-pressed={layout === "grid"}
                 className={`rounded-lg p-2 ${layout === "grid" ? "bg-muted" : ""}`}
               >
                 <Grid className="h-4 w-4" />
               </button>
               <button
+                type="button"
                 onClick={() => setLayout("list")}
+                aria-label="Exibir resultados em lista"
+                aria-pressed={layout === "list"}
                 className={`rounded-lg p-2 ${layout === "list" ? "bg-muted" : ""}`}
               >
                 <List className="h-4 w-4" />

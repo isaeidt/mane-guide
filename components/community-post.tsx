@@ -81,7 +81,10 @@ export function CommunityPost({
       {/* Actions */}
       <div className="flex items-center gap-4 border-t border-border pt-3">
         <button
+          type="button"
           onClick={() => setIsLiked(!isLiked)}
+          aria-pressed={isLiked}
+          aria-label={`${isLiked ? "Descurtir" : "Curtir"} publicação de ${author.name}`}
           className="flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-primary"
         >
           <Heart
@@ -92,11 +95,11 @@ export function CommunityPost({
           />
           <span className="text-sm">{likes} Curtidas</span>
         </button>
-        <button className="flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-primary">
+        <button type="button" aria-label={`Ver ${comments} respostas da publicação de ${author.name}`} className="flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-primary">
           <MessageCircle className="h-4 w-4" />
           <span className="text-sm">{comments} Respostas</span>
         </button>
-        <button className="ml-auto text-muted-foreground transition-colors hover:text-primary">
+        <button type="button" aria-label={`Compartilhar publicação de ${author.name}`} className="ml-auto text-muted-foreground transition-colors hover:text-primary">
           <Share2 className="h-4 w-4" />
         </button>
       </div>

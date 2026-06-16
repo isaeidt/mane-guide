@@ -34,6 +34,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
 
       {/* Drawer */}
       <aside
+        aria-label="Menu lateral"
         className={cn(
           "fixed left-0 top-0 z-50 h-screen w-72 border-r border-border bg-card shadow-xl transition-transform duration-300 ease-in-out",
           isOpen ? "translate-x-0" : "-translate-x-full"
@@ -62,7 +63,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 px-3 py-4">
+          <nav aria-label="Navegação lateral" className="flex-1 px-3 py-4">
             <p className="mb-2 px-3 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
               Explorar
             </p>
@@ -75,6 +76,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
                     <Link
                       href={item.href}
                       onClick={onClose}
+                      aria-current={isActive ? "page" : undefined}
                       className={cn(
                         "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors",
                         isActive

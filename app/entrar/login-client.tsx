@@ -28,6 +28,9 @@ export function LoginClient() {
   const [password, setPassword] = useState("")
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
+  const emailFieldId = "login-email"
+  const passwordFieldId = "login-password"
+  const errorMessageId = "login-error"
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -81,7 +84,7 @@ export function LoginClient() {
           <Image src="/logo.png" alt="ManéGuide" width={20} height={20} className="rounded-full" />
           <span className="text-xl font-bold text-foreground">ManéGuide</span>
         </Link>
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav aria-label="Navegação principal" className="hidden items-center gap-8 md:flex">
           <Link href="/explorar" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
             Explorar
           </Link>
@@ -93,21 +96,25 @@ export function LoginClient() {
           </Link>
         </nav>
         <div className="flex items-center gap-3">
-          <div className="relative hidden md:block">
+          <form role="search" aria-label="Buscar lugares na ilha" className="relative hidden md:block">
+            <label htmlFor="login-header-search" className="sr-only">
+              Buscar lugares na ilha
+            </label>
             <input
-              type="text"
+              id="login-header-search"
+              type="search"
               placeholder="Buscar na ilha..."
               className="h-9 w-52 rounded-full border border-border bg-muted pl-4 pr-10 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
             />
-            <svg className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg aria-hidden="true" className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
-          </div>
+          </form>
         </div>
       </header>
 
       {/* Main content */}
-      <main className="flex flex-1 items-center justify-center px-4 py-16">
+      <main id="conteudo-principal" tabIndex={-1} className="flex flex-1 items-center justify-center px-4 py-16">
         <div className="flex w-full max-w-4xl items-center gap-16">
           {/* Left — mascot + text */}
           <div className="hidden flex-1 flex-col items-start lg:flex">
@@ -140,7 +147,9 @@ export function LoginClient() {
           <div className="w-full max-w-md rounded-3xl border border-border bg-card p-10 shadow-sm">
             <div className="mb-8 flex rounded-full border border-border bg-muted p-1">
               <button
+                type="button"
                 onClick={() => setMode("usuario")}
+                aria-pressed={mode === "usuario"}
                 className={`flex-1 rounded-full py-2 text-sm font-semibold transition-all ${
                   mode === "usuario"
                     ? "bg-primary text-primary-foreground shadow-sm"
@@ -150,7 +159,9 @@ export function LoginClient() {
                 Sou Usuário
               </button>
               <button
+                type="button"
                 onClick={() => setMode("estabelecimento")}
+                aria-pressed={mode === "estabelecimento"}
                 className={`flex-1 rounded-full py-2 text-sm font-semibold transition-all ${
                   mode === "estabelecimento"
                     ? "bg-primary text-primary-foreground shadow-sm"
@@ -170,21 +181,25 @@ export function LoginClient() {
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-5">
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                <label htmlFor={emailFieldId} className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                   E-mail
                 </label>
                 <input
+                  id={emailFieldId}
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder={c.placeholder}
+                  autoComplete="email"
+                  aria-invalid={Boolean(error && !email)}
+                  aria-describedby={error ? errorMessageId : undefined}
                   className="h-12 rounded-xl border border-border bg-background px-4 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
 
               <div className="flex flex-col gap-1.5">
                 <div className="flex items-center justify-between">
-                  <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                  <label htmlFor={passwordFieldId} className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                     Senha
                   </label>
                   <button type="button" className="text-xs font-medium text-primary hover:underline">
@@ -193,15 +208,20 @@ export function LoginClient() {
                 </div>
                 <div className="relative">
                   <input
+                    id={passwordFieldId}
                     type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
+                    autoComplete="current-password"
+                    aria-invalid={Boolean(error && !password)}
+                    aria-describedby={error ? errorMessageId : undefined}
                     className="h-12 w-full rounded-xl border border-border bg-background px-4 pr-12 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
+                    aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
                     className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                   >
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -210,7 +230,7 @@ export function LoginClient() {
               </div>
 
               {error && (
-                <p className="rounded-lg bg-destructive/10 px-4 py-2.5 text-sm font-medium text-destructive">
+                <p id={errorMessageId} role="alert" className="rounded-lg bg-destructive/10 px-4 py-2.5 text-sm font-medium text-destructive">
                   {error}
                 </p>
               )}
@@ -233,6 +253,7 @@ export function LoginClient() {
 
             <div className="mt-6 text-center">
               <button
+                type="button"
                 onClick={() => setMode(c.alternateMode)}
                 className="text-sm font-medium text-primary hover:underline"
               >

@@ -1,6 +1,11 @@
 import Image from "next/image"
 import { Header } from "@/components/header"
-import { Calendar, MapPin, Clock, Heart, ChevronRight, Bookmark } from "lucide-react"
+import { Calendar, MapPin, Clock, ChevronRight, Bookmark } from "lucide-react"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Eventos",
+}
 
 const filters = [
   { label: "Todos", active: true },
@@ -71,7 +76,7 @@ export default function EventosPage() {
     <div className="min-h-screen">
       <Header />
 
-      <main className="mx-auto max-w-6xl p-6">
+      <main id="conteudo-principal" tabIndex={-1} className="mx-auto max-w-6xl p-6">
         {/* Page Header com mascote coelho */}
         <div className="mb-6 flex items-end gap-6">
           <div className="flex-1">
@@ -97,6 +102,8 @@ export default function EventosPage() {
           {filters.map((filter) => (
             <button
               key={filter.label}
+              type="button"
+              aria-pressed={filter.active}
               className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
                 filter.active
                   ? "bg-primary text-primary-foreground"
@@ -136,7 +143,7 @@ export default function EventosPage() {
                     {event.location}
                   </div>
                 </div>
-                <button className="flex w-fit items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90">
+                <button type="button" className="flex w-fit items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90">
                   Ver Detalhes
                   <ChevronRight className="h-4 w-4" />
                 </button>
@@ -162,7 +169,7 @@ export default function EventosPage() {
                 <span className="absolute left-3 top-3 rounded-full bg-primary px-3 py-1 text-xs font-medium text-primary-foreground">
                   {event.category}
                 </span>
-                <button className="absolute right-3 top-3 rounded-full bg-white/80 p-2 backdrop-blur-sm hover:bg-white">
+                <button type="button" aria-label={`Salvar evento ${event.name}`} className="absolute right-3 top-3 rounded-full bg-white/80 p-2 backdrop-blur-sm hover:bg-white">
                   <Bookmark className="h-4 w-4" />
                 </button>
               </div>

@@ -11,6 +11,11 @@ import {
   Music,
   ChevronRight,
 } from "lucide-react"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Início",
+}
 
 const categories = [
   {
@@ -116,7 +121,7 @@ export default function HomePage() {
     <div className="min-h-screen">
       <Header />
 
-      <main className="mx-auto max-w-6xl p-6">
+      <main id="conteudo-principal" tabIndex={-1} className="mx-auto max-w-6xl p-6">
         {/* Hero Section */}
         <section className="mb-8 overflow-hidden rounded-3xl">
           <div className="relative h-72 w-full">
@@ -145,6 +150,8 @@ export default function HomePage() {
                 {categories.map((cat) => (
                   <button
                     key={cat.label}
+                    type="button"
+                    aria-label={`Filtrar por ${cat.label}`}
                     className="flex items-center gap-2 rounded-full border border-white/20 bg-white/20 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm transition-colors hover:bg-white/30"
                   >
                     <cat.icon className="h-4 w-4" />

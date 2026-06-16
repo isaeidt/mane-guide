@@ -1,4 +1,5 @@
 import Link from "next/link"
+import type { Metadata } from "next"
 import { Header } from "@/components/header"
 import PlaceDetail from "@/components/place-detail"
 import { places } from "@/lib/places"
@@ -34,7 +35,7 @@ export default async function LugarPage({
       {place ? (
         <PlaceDetail place={place} />
       ) : (
-        <main className="mx-auto max-w-7xl p-6">
+        <main id="conteudo-principal" tabIndex={-1} className="mx-auto max-w-7xl p-6">
           <Link href="/explorar" className="text-sm text-primary hover:underline">
             Voltar
           </Link>
@@ -46,4 +47,24 @@ export default async function LugarPage({
       )}
     </div>
   )
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}): Promise<Metadata> {
+  const { id } = await params
+  const decodedId = decodeURIComponent(id)
+  const normalizedId = normalize(decodedId)
+
+  const place =
+    places.find((item) => item.id === decodedId) ||
+    places.find((item) => normalize(item.id) === normalizedId) ||
+    places.find((item) => normalize(item.name) === normalizedId) ||
+    places.find((item) => normalize(item.name).includes(normalizedId))
+
+  return {
+    title: place ? place.name : "Local não encontrado",
+  }
 }

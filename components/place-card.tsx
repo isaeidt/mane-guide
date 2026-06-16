@@ -110,6 +110,7 @@ export function PlaceCard({
           </span>
         )}
         <button
+          type="button"
           className="absolute right-3 top-3 rounded-full bg-white/80 p-2 backdrop-blur-sm transition-colors hover:bg-white"
           onClick={handleFavorite}
           aria-label={isFavorited ? "Remover dos itens salvos" : "Adicionar aos itens salvos"}
@@ -127,7 +128,7 @@ export function PlaceCard({
       <div className="p-4">
         <div className="mb-2 flex items-start justify-between gap-2">
           <h3 className="font-semibold text-foreground line-clamp-1">{name}</h3>
-          <MapPin className="h-4 w-4 shrink-0 text-muted-foreground" />
+          <MapPin aria-hidden="true" className="h-4 w-4 shrink-0 text-muted-foreground" />
         </div>
         <p className="mb-3 text-sm text-muted-foreground line-clamp-2">{description}</p>
 

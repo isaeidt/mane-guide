@@ -37,7 +37,7 @@ export default function PlaceDetail({ place }: { place: Place }) {
   }
 
   return (
-    <main className="mx-auto max-w-7xl p-6">
+    <main id="conteudo-principal" tabIndex={-1} className="mx-auto max-w-7xl p-6">
       <Link
         href="/explorar"
         className="mb-4 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
@@ -57,6 +57,7 @@ export default function PlaceDetail({ place }: { place: Place }) {
 
         <div className="flex items-center gap-2">
           <button
+            type="button"
             onClick={toggleFavorite}
             className="rounded-full border border-border p-2 hover:bg-muted"
             aria-label={isFavorited ? "Remover dos itens salvos" : "Adicionar aos itens salvos"}
@@ -64,7 +65,7 @@ export default function PlaceDetail({ place }: { place: Place }) {
             <Bookmark className={`h-5 w-5 ${isFavorited ? "fill-primary text-primary" : ""}`} />
           </button>
 
-          <button className="rounded-full border border-border p-2 hover:bg-muted">
+          <button type="button" aria-label={`Compartilhar ${place.name}`} className="rounded-full border border-border p-2 hover:bg-muted">
             <Share2 className="h-5 w-5" />
           </button>
         </div>
