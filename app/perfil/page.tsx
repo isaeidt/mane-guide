@@ -59,10 +59,10 @@ const badges = [
 
 const salvos = [
   {
-    id: "lagoa-conceicao",
-    name: "Lagoa da Conceicao",
-    description: "O coracao da ilha com restaurantes, bares e esportes nauticos.",
-    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80",
+    id: "bar-do-mane",
+    name: "Bar do mané",
+    description: "Boteco raiz com petisco bom e cerveja gelada perto do centrinho.",
+    image: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=800&q=80",
     rating: 4.8,
   },
   {
@@ -73,10 +73,10 @@ const salvos = [
     rating: 4.6,
   },
   {
-    id: "praia-mole",
-    name: "Praia Mole",
-    description: "Praia com ondas perfeitas para surf e clima jovem.",
-    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80",
+    id: "canto-do-moreira",
+    name: "Canto do Moreira",
+    description: "Pico escondido quando a Praia Mole enche. Ondas fortes e local vibe..",
+    image: "https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=800&q=80",
     rating: 4.7,
   },
 ]
@@ -270,6 +270,48 @@ export default function PerfilPage() {
           </div>
         </div>
       </main>
+      {/* Footer */}
+      <footer className="border-t border-border bg-card px-6 py-5">
+      <div className="mx-auto max-w-6xl">
+        <div className="mb-4 rounded-xl border border-blue-200 bg-blue-50 p-4">
+          <p className="text-sm font-semibold text-blue-900">
+            ⚠️ Versão em desenvolvimento
+          </p>
+
+
+          <p className="mt-2 text-sm text-blue-800">
+            Algumas funcionalidades, conteúdos e integrações ainda estão sendo desenvolvidas.
+            Dados podem ser simulados para fins de demonstração do projeto.
+          </p>
+        </div>
+
+        <div className="flex flex-col items-center justify-between gap-2 text-sm text-muted-foreground sm:flex-row">
+          <p className="font-semibold text-foreground">
+            ManéGuide
+          </p>
+
+          <div className="flex gap-6">
+            <Link href="#" className="hover:text-foreground">
+              Privacidade
+            </Link>
+
+            <Link href="#" className="hover:text-foreground">
+              Termos
+            </Link>
+
+            <Link href="#" className="hover:text-foreground">
+              Sobre Nós
+            </Link>
+
+            <Link href="#" className="hover:text-foreground">
+              Suporte
+            </Link>
+          </div>
+
+          <p>© 2026 ManéGuide · Feito com carinho em Floripa</p>
+        </div>
+      </div>
+    </footer>
     </div>
   )
 }

@@ -624,7 +624,7 @@ export const places: Place[] = [
     events: defaultEvents("Almoço raiz"),
     comfort: ["História nas paredes", "Petisco clássico", "Parada obrigatória", "Ambiente informal"],
     images: [
-      "https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=1200&q=80",
+      "/bar do arante.jpg",
       "https://images.unsplash.com/photo-1528605248644-14dd04022da1?w=1200&q=80",
       "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1200&q=80",
     ],

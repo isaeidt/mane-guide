@@ -85,7 +85,7 @@ export function LoginClient() {
           <span className="text-xl font-bold text-foreground">ManéGuide</span>
         </Link>
         <nav aria-label="Navegação principal" className="hidden items-center gap-8 md:flex">
-          <Link href="/explorar" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
+          <Link href="/" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
             Explorar
           </Link>
           <Link href="/lado-b" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
@@ -264,18 +264,33 @@ export function LoginClient() {
         </div>
       </main>
 
-      <footer className="border-t border-border bg-card px-8 py-4">
+      <footer className="border-t border-border bg-card px-8 py-5">
+      <div className="mx-auto max-w-6xl">
+        <div className="mb-4 rounded-xl border border-blue-200 bg-blue-50 p-4 text-center">
+          <p className="text-sm font-semibold text-blue-900">
+            ⚠️ Ambiente de demonstração
+          </p>
+
+          <p className="mt-1 text-sm text-blue-800">
+            Esta tela utiliza autenticação simulada. Você pode acessar o sistema utilizando qualquer e-mail e qualquer senha, os dados não ficarão salvos.
+          </p>
+
+        </div>
+
         <div className="flex flex-col items-center justify-between gap-2 text-xs text-muted-foreground sm:flex-row">
           <span className="font-semibold text-foreground">ManéGuide</span>
+
           <div className="flex gap-6">
             <Link href="#" className="hover:text-foreground">Privacidade</Link>
             <Link href="#" className="hover:text-foreground">Termos</Link>
             <Link href="#" className="hover:text-foreground">Sobre Nós</Link>
             <Link href="#" className="hover:text-foreground">Contato</Link>
           </div>
+
           <span>© 2026 ManéGuide - Feito com sotaque em Floripa.</span>
         </div>
-      </footer>
+      </div>
+    </footer>
     </div>
   )
 }

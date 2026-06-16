@@ -6,9 +6,25 @@ import Link from "next/link"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { ChevronLeft, MapPin, Share2, Clock, Star, Bookmark } from "lucide-react"
 import type { Place } from "@/lib/places"
+import { CsatModal } from "@/components/csat-modal"
+import { useRouter } from "next/navigation" 
 
 export default function PlaceDetail({ place }: { place: Place }) {
+  
+  const router = useRouter()
+
+  const handleBack = () => {
+    if (window.history.length > 1) {
+      router.back()
+    } else {
+      router.push("/")
+    }
+  }
+  
   const [isFavorited, setIsFavorited] = useState(false)
+  const [showCsat, setShowCsat] = useState(false)
+
+  const CSAT_SHOWN_KEY = "mg:csat-shown"
   const gallery = place.images?.length ? place.images : [place.image, place.image, place.image]
 
   useEffect(() => {
@@ -22,29 +38,42 @@ export default function PlaceDetail({ place }: { place: Place }) {
   }, [place.id])
 
   const toggleFavorite = () => {
-    try {
-      const raw = localStorage.getItem("mg:favorites")
-      const favs: string[] = raw ? JSON.parse(raw) : []
-      const next = favs.includes(place.id)
-        ? favs.filter((x) => x !== place.id)
-        : [...favs, place.id]
-      localStorage.setItem("mg:favorites", JSON.stringify(next))
-      window.dispatchEvent(new Event("mg:favorites-changed"))
-      setIsFavorited(next.includes(place.id))
-    } catch {
-      // ignore
+  try {
+    const raw = localStorage.getItem("mg:favorites")
+    const favs: string[] = raw ? JSON.parse(raw) : []
+
+    const wasFavorited = favs.includes(place.id)
+
+    const next = wasFavorited
+      ? favs.filter((x) => x !== place.id)
+      : [...favs, place.id]
+
+    localStorage.setItem("mg:favorites", JSON.stringify(next))
+    window.dispatchEvent(new Event("mg:favorites-changed"))
+    setIsFavorited(next.includes(place.id))
+
+    if (
+      !wasFavorited &&
+      sessionStorage.getItem(CSAT_SHOWN_KEY) !== "true"
+    ) {
+      sessionStorage.setItem(CSAT_SHOWN_KEY, "true")
+      setShowCsat(true)
     }
+  } catch {
+    // ignore
   }
+}
 
   return (
     <main id="conteudo-principal" tabIndex={-1} className="mx-auto max-w-7xl p-6">
-      <Link
-        href="/explorar"
-        className="mb-4 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
-      >
-        <ChevronLeft className="h-4 w-4" />
-        Voltar
-      </Link>
+        <button
+          type="button"
+          onClick={handleBack}
+          className="mb-4 inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
+        >
+          <ChevronLeft className="h-4 w-4" />
+          Voltar
+        </button>
 
       <div className="mb-6 flex items-start justify-between gap-4">
         <div>
@@ -209,6 +238,12 @@ export default function PlaceDetail({ place }: { place: Place }) {
           </div>
         </div>
       </div>
+      {showCsat && (
+        <CsatModal
+        placeName={place.name}
+        onClose={() => setShowCsat(false)}
+       />
+      )}
     </main>
   )
 }

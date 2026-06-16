@@ -67,4 +67,6 @@ export async function generateMetadata({
   return {
     title: place ? place.name : "Local não encontrado",
   }
+
+  
 }
