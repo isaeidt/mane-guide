@@ -1,14 +1,14 @@
 "use client"
 
 import Image from "next/image"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Header } from "@/components/header"
-import { CommunityPost } from "@/components/community-post"
 import { PlaceCard } from "@/components/place-card"
 import { DocumentTitle } from "@/components/document-title"
-import { Heart, MessageCircle, Share2, PlusCircle, TrendingUp, X, ImagePlus, Bookmark } from "lucide-react"
+import { Heart, MessageCircle, Share2, PlusCircle, TrendingUp, ImagePlus } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import Link from "next/link"
+import { CsatModal } from "@/components/csat-modal"
 import {
   Dialog,
   DialogContent,
@@ -38,20 +38,36 @@ const topManezinhos = [
   },
 ]
 
-const featuredPost = {
+type Post = {
+  id: string
+  author: {
+    name: string
+    avatar: string
+    role?: string
+  }
+  content: string
+  image?: string
+  likes: number
+  comments: number
+  liked: boolean
+}
+
+const initialFeaturedPost: Post = {
   id: "featured",
   author: {
     name: "Beto da Costa",
     avatar: "/bonicos/pitch-(6).png",
     role: "Moradora Local",
   },
-  content: "Acabei de ver o pôr do sol na Ponta das Canas e não tem erro: o melhor lugar e aréas da Lagoinha. Sêm crowd e com visual de novela. O tempo é iincrível!",
+  content:
+    "Acabei de ver o pôr do sol na Ponta das Canas e não tem erro: o melhor lugar e aréas da Lagoinha. Sêm crowd e com visual de novela. O tempo é iincrível!",
   image: "/por_sol.jpg",
   likes: 124,
   comments: 18,
+  liked: false,
 }
 
-const posts = [
+const initialPosts: Post[] = [
   {
     id: "1",
     author: {
@@ -62,6 +78,7 @@ const posts = [
     content: "Ô turista, hoje tá muito bom pra passear de canoa no rio da pratelinha! Maré cheia até às 15h, depois o rio vira um espelho.",
     likes: 24,
     comments: 8,
+    liked: false,
   },
   {
     id: "2",
@@ -72,6 +89,7 @@ const posts = [
     content: "Alguém sabe se o mercado público tá aberto até mais tarde hoje por causa do feriado? Valeu, galera!",
     likes: 62,
     comments: 5,
+    liked: false,
   },
   {
     id: "3",
@@ -83,13 +101,156 @@ const posts = [
     image: "camarao.jpg",
     likes: 89,
     comments: 12,
+    liked: false,
   },
 ]
 
 export default function ComunidadePage() {
+  const [featuredPost, setFeaturedPost] = useState<Post>(initialFeaturedPost)
   const [featuredLiked, setFeaturedLiked] = useState(false)
+  const [featuredLikes, setFeaturedLikes] = useState(featuredPost.likes)
+
   const [isPostModalOpen, setIsPostModalOpen] = useState(false)
   const [postContent, setPostContent] = useState("")
+
+  const [showCsat, setShowCsat] = useState(false)
+  const [csatPlaceName, setCsatPlaceName] = useState("")
+  const [csatType, setCsatType] = useState<"save" | "post">("save")
+
+  // Controle de sessão para o CSAT de post
+  const [hasSeenPostCsatInSession, setHasSeenPostCsatInSession] = useState(false)
+
+  const [communityPosts, setCommunityPosts] = useState<Post[]>(initialPosts)
+
+  // Verifica se o usuário já viu o CSAT de post nesta sessão
+  useEffect(() => {
+    const sessionValue = sessionStorage.getItem("hasSeenPostCsat")
+    if (sessionValue === "true") {
+      setHasSeenPostCsatInSession(true)
+    }
+  }, [])
+
+  const handlePublishPost = () => {
+    if (!postContent.trim()) return
+
+    const oldFeaturedPost = { ...featuredPost }
+
+    const newPost: Post = {
+      id: crypto.randomUUID(),
+      author: {
+        name: "Você",
+        avatar: "/bonicos/16.png",
+        role: "Membro da comunidade",
+      },
+      content: postContent,
+      likes: 0,
+      comments: 0,
+      liked: false,
+    }
+
+    setFeaturedPost(newPost)
+    setFeaturedLiked(false)
+    setFeaturedLikes(0)
+
+    setCommunityPosts((prev) => [oldFeaturedPost, ...prev])
+
+    setPostContent("")
+    setIsPostModalOpen(false)
+
+    // Verifica se o usuário já viu o CSAT de post nesta sessão
+    if (!hasSeenPostCsatInSession) {
+      setCsatPlaceName("Post enviado com sucesso!")
+      setCsatType("post")
+      setTimeout(() => {
+        setShowCsat(true)
+      }, 400)
+    }
+  }
+
+  const handleCsatClose = () => {
+    setShowCsat(false)
+    // Marca que o usuário viu o CSAT de post nesta sessão
+    if (csatType === "post" && !hasSeenPostCsatInSession) {
+      setHasSeenPostCsatInSession(true)
+      sessionStorage.setItem("hasSeenPostCsat", "true")
+    }
+  }
+
+  const togglePostLike = (id: string) => {
+    setCommunityPosts((prev) =>
+      prev.map((post) =>
+        post.id === id
+          ? {
+              ...post,
+              liked: !post.liked,
+              likes: post.liked
+                ? post.likes - 1
+                : post.likes + 1,
+            }
+          : post
+      )
+    )
+  }
+
+  const toggleFeaturedLike = () => {
+    if (featuredLiked) {
+      setFeaturedLikes((v) => v - 1)
+    } else {
+      setFeaturedLikes((v) => v + 1)
+    }
+
+    setFeaturedLiked(!featuredLiked)
+  }
+
+  const renderPost = (post: Post, isFeatured: boolean = false) => {
+    const likes = isFeatured ? featuredLikes : post.likes
+    const liked = isFeatured ? featuredLiked : post.liked
+    const toggleLike = isFeatured ? toggleFeaturedLike : () => togglePostLike(post.id)
+
+    return (
+      <div className="overflow-hidden rounded-2xl border border-border bg-card">
+        <div className="p-4">
+          <div className="mb-3 flex items-center gap-3">
+            <Avatar className="h-11 w-11 border-2 border-primary/20">
+              <AvatarImage src={post.author.avatar} alt={post.author.name} />
+              <AvatarFallback>{post.author.name.charAt(0)}</AvatarFallback>
+            </Avatar>
+            <div>
+              <p className="font-medium text-foreground">{post.author.name}</p>
+              {post.author.role && (
+                <p className="text-xs text-muted-foreground">{post.author.role}</p>
+              )}
+            </div>
+          </div>
+          <p className="mb-4 text-sm text-foreground">{post.content}</p>
+        </div>
+        {post.image && (
+          <div className="relative aspect-video">
+            <Image src={post.image} alt="Foto da publicação" fill className="object-cover" />
+          </div>
+        )}
+        <div className="flex items-center gap-4 border-t border-border p-4">
+          <button
+            type="button"
+            onClick={toggleLike}
+            aria-pressed={liked}
+            aria-label={`${liked ? "Remover curtida" : "Curtir"} publicação`}
+            className="flex items-center gap-1.5 text-muted-foreground hover:text-primary transition-colors"
+          >
+            <Heart className={`h-5 w-5 ${liked ? "fill-primary text-primary" : ""}`} />
+            <span className="text-sm">{likes} {likes === 1 ? "curtida" : "curtidas"}</span>
+          </button>
+          <button type="button" className="flex items-center gap-1.5 text-muted-foreground hover:text-primary transition-colors">
+            <MessageCircle className="h-5 w-5" />
+            <span className="text-sm">{post.comments} Respostas</span>
+          </button>
+          <button type="button" className="ml-auto text-muted-foreground hover:text-primary transition-colors">
+            <Share2 className="h-5 w-5" />
+          </button>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen">
@@ -98,9 +259,7 @@ export default function ComunidadePage() {
 
       <main id="conteudo-principal" tabIndex={-1} className="mx-auto max-w-6xl p-6">
         <div className="grid gap-6 lg:grid-cols-3">
-          {/* Main Feed */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Header com mascote  */}
             <div className="flex items-end gap-4">
               <div className="flex-1 flex items-center justify-between">
                 <h1 className="text-2xl font-bold text-foreground">O que você descobriu hoje?</h1>
@@ -121,57 +280,18 @@ export default function ComunidadePage() {
                   style={{ mixBlendMode: "multiply" }}
                 />
               </div>
-              
             </div>
 
-            {/* Featured Post */}
-            <div className="overflow-hidden rounded-2xl border border-border bg-card">
-              <div className="p-4">
-                <div className="mb-3 flex items-center gap-3">
-                  <Avatar className="h-11 w-11 border-2 border-primary/20">
-                    <AvatarImage src={featuredPost.author.avatar} alt={featuredPost.author.name} />
-                    <AvatarFallback>{featuredPost.author.name.charAt(0)}</AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <p className="font-medium text-foreground">{featuredPost.author.name}</p>
-                    <p className="text-xs text-muted-foreground">{featuredPost.author.role}</p>
-                  </div>
-                </div>
-                <p className="mb-4 text-sm text-foreground">{featuredPost.content}</p>
-              </div>
-              <div className="relative aspect-video">
-                <Image src={featuredPost.image} alt="Foto da publicação em destaque da comunidade" fill className="object-cover" />
-              </div>
-              <div className="flex items-center gap-4 border-t border-border p-4">
-                <button
-                  type="button"
-                  onClick={() => setFeaturedLiked(!featuredLiked)}
-                  aria-pressed={featuredLiked}
-                  aria-label={`${featuredLiked ? "Remover curtida" : "Curtir"} publicação em destaque`}
-                  className="flex items-center gap-1.5 text-muted-foreground hover:text-primary transition-colors"
-                >
-                  <Heart className={`h-5 w-5 ${featuredLiked ? "fill-primary text-primary" : ""}`} />
-                  <span className="text-sm">{featuredPost.likes} Curtidas</span>
-                </button>
-                <button type="button" aria-label={`Ver ${featuredPost.comments} respostas da publicação em destaque`} className="flex items-center gap-1.5 text-muted-foreground hover:text-primary transition-colors">
-                  <MessageCircle className="h-5 w-5" />
-                  <span className="text-sm">{featuredPost.comments} Respostas</span>
-                </button>
-                <button type="button" aria-label="Compartilhar publicação em destaque" className="ml-auto text-muted-foreground hover:text-primary transition-colors">
-                  <Share2 className="h-5 w-5" />
-                </button>
-              </div>
-            </div>
+            {renderPost(featuredPost, true)}
 
-            {/* Other Posts */}
-            {posts.map((post) => (
-              <CommunityPost key={post.id} {...post} />
+            {communityPosts.map((post) => (
+              <div key={post.id}>
+                {renderPost(post, false)}
+              </div>
             ))}
           </div>
 
-          {/* Right Sidebar */}
           <div className="space-y-6">
-            {/* Top Manézinhos */}
             <div className="rounded-2xl border border-border bg-card p-4">
               <div className="mb-4 flex items-center gap-2">
                 <TrendingUp className="h-5 w-5 text-primary" />
@@ -194,7 +314,6 @@ export default function ComunidadePage() {
               </div>
             </div>
 
-            {/* Desafio da Semana */}
             <div className="overflow-hidden rounded-2xl border border-border bg-card">
               <div className="relative h-36">
                 <Image
@@ -218,7 +337,6 @@ export default function ComunidadePage() {
               </div>
             </div>
 
-            {/* Sugestão de lugar */}
             <PlaceCard
               id="trilha-lagoinha"
               name="Trilha da Lagoinha"
@@ -230,7 +348,6 @@ export default function ComunidadePage() {
         </div>
       </main>
 
-      {/* Modal para criar post */}
       <Dialog open={isPostModalOpen} onOpenChange={setIsPostModalOpen}>
         <DialogContent className="sm:max-w-lg">
           <DialogHeader>
@@ -242,7 +359,7 @@ export default function ComunidadePage() {
           <div className="space-y-4">
             <div className="flex items-start gap-3">
               <Avatar className="h-10 w-10 border-2 border-primary/20">
-                <AvatarImage src="/bonicos/14.png" alt="Você" />
+                <AvatarImage src="/bonicos/16.png" alt="Você" />
                 <AvatarFallback>V</AvatarFallback>
               </Avatar>
               <div className="flex-1">
@@ -266,10 +383,7 @@ export default function ComunidadePage() {
               </button>
               <button 
                 type="button"
-                onClick={() => {
-                  setIsPostModalOpen(false)
-                  setPostContent("")
-                }}
+                onClick={handlePublishPost}
                 disabled={!postContent.trim()}
                 className="rounded-full bg-primary px-5 py-2 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
               >
@@ -279,48 +393,51 @@ export default function ComunidadePage() {
           </div>
         </DialogContent>
       </Dialog>
-      {/* Footer */}
+
       <footer className="border-t border-border bg-card px-6 py-5">
-      <div className="mx-auto max-w-6xl">
-        <div className="mb-4 rounded-xl border border-blue-200 bg-blue-50 p-4">
-          <p className="text-sm font-semibold text-blue-900">
-            ⚠️ Versão em desenvolvimento
-          </p>
-
-
-          <p className="mt-2 text-sm text-blue-800">
-            Algumas funcionalidades, conteúdos e integrações ainda estão sendo desenvolvidas.
-            Dados podem ser simulados para fins de demonstração do projeto.
-          </p>
-        </div>
-
-        <div className="flex flex-col items-center justify-between gap-2 text-sm text-muted-foreground sm:flex-row">
-          <p className="font-semibold text-foreground">
-            ManéGuide
-          </p>
-
-          <div className="flex gap-6">
-            <Link href="#" className="hover:text-foreground">
-              Privacidade
-            </Link>
-
-            <Link href="#" className="hover:text-foreground">
-              Termos
-            </Link>
-
-            <Link href="#" className="hover:text-foreground">
-              Sobre Nós
-            </Link>
-
-            <Link href="#" className="hover:text-foreground">
-              Suporte
-            </Link>
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-4 rounded-xl border border-blue-200 bg-blue-50 p-4">
+            <p className="text-sm font-semibold text-blue-900">
+              ⚠️ Versão em desenvolvimento
+            </p>
+            <p className="mt-2 text-sm text-blue-800">
+              Algumas funcionalidades, conteúdos e integrações ainda estão sendo desenvolvidas.
+              Dados podem ser simulados para fins de demonstração do projeto.
+            </p>
           </div>
 
-          <p>© 2026 ManéGuide · Feito com carinho em Floripa</p>
+          <div className="flex flex-col items-center justify-between gap-2 text-sm text-muted-foreground sm:flex-row">
+            <p className="font-semibold text-foreground">
+              ManéGuide
+            </p>
+
+            <div className="flex gap-6">
+              <Link href="#" className="hover:text-foreground">
+                Privacidade
+              </Link>
+              <Link href="#" className="hover:text-foreground">
+                Termos
+              </Link>
+              <Link href="#" className="hover:text-foreground">
+                Sobre Nós
+              </Link>
+              <Link href="#" className="hover:text-foreground">
+                Suporte
+              </Link>
+            </div>
+
+            <p>© 2026 ManéGuide · Feito com carinho em Floripa</p>
+          </div>
         </div>
-      </div>
-    </footer>
+      </footer>
+
+      {showCsat && (
+        <CsatModal
+          placeName={csatPlaceName}
+          type={csatType}
+          onClose={handleCsatClose}
+        />
+      )}
     </div>
   )
 }

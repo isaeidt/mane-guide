@@ -1,11 +1,12 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Bookmark, X } from "lucide-react"
+import { X, Bookmark, Send } from "lucide-react"
 
 type CsatModalProps = {
   placeName: string
   onClose: () => void
+  type?: "save" | "post"
 }
 
 const LABELS: Record<number, string> = {
@@ -16,12 +17,11 @@ const LABELS: Record<number, string> = {
   5: "Muito satisfeito(a)",
 }
 
-export function CsatModal({ placeName, onClose }: CsatModalProps) {
+export function CsatModal({ placeName, onClose, type = "save" }: CsatModalProps) {
   const [hovered, setHovered] = useState(0)
   const [selected, setSelected] = useState(0)
   const [submitted, setSubmitted] = useState(false)
 
-  // fecha com Esc
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose()
@@ -31,13 +31,27 @@ export function CsatModal({ placeName, onClose }: CsatModalProps) {
   }, [onClose])
 
   const handleSubmit = () => {
-    // aqui você pode enviar o dado para sua API
-    console.log("CSAT:", { placeName, rating: selected })
+    console.log("CSAT:", { placeName, rating: selected, type })
     setSubmitted(true)
     setTimeout(onClose, 1800)
   }
 
   const activeStar = hovered || selected
+
+  const getBadgeConfig = () => {
+    if (type === "post") {
+      return {
+        icon: <Send className="h-3.5 w-3.5" aria-hidden="true" />,
+        text: "Post enviado com sucesso!"
+      }
+    }
+    return {
+      icon: <Bookmark className="h-3.5 w-3.5 fill-current" aria-hidden="true" />,
+      text: "Local salvo!"
+    }
+  }
+
+  const badgeConfig = getBadgeConfig()
 
   return (
     <div
@@ -48,7 +62,6 @@ export function CsatModal({ placeName, onClose }: CsatModalProps) {
       onClick={(e) => { if (e.target === e.currentTarget) onClose() }}
     >
       <div className="relative w-full max-w-sm rounded-3xl border border-border bg-background p-8 text-center shadow-lg">
-        {/* Botão fechar */}
         <button
           type="button"
           aria-label="Fechar"
@@ -59,7 +72,6 @@ export function CsatModal({ placeName, onClose }: CsatModalProps) {
         </button>
 
         {submitted ? (
-          /* Estado de agradecimento */
           <div className="flex flex-col items-center gap-3 py-4" role="status" aria-live="polite">
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-100 text-green-600 text-xl">
               ✓
@@ -71,19 +83,15 @@ export function CsatModal({ placeName, onClose }: CsatModalProps) {
           </div>
         ) : (
           <>
-            {/* Badge salvo */}
             <div className="mb-4 inline-flex items-center gap-1.5 rounded-full bg-green-50 px-3 py-1 text-xs font-medium text-green-700">
-              <Bookmark className="h-3.5 w-3.5 fill-current" aria-hidden="true" />
-              Local salvo!
+              {badgeConfig.icon}
+              {badgeConfig.text}
             </div>
-
-            <p className="mb-1 text-[17px] font-medium text-foreground">{placeName}</p>
 
             <p id="csat-title" className="mb-5 text-sm leading-relaxed text-muted-foreground">
               Quão satisfeito(a) você está<br />com essa funcionalidade?
             </p>
 
-            {/* Estrelas */}
             <div
               className="mb-2 flex justify-center gap-2"
               role="group"
@@ -110,13 +118,11 @@ export function CsatModal({ placeName, onClose }: CsatModalProps) {
               ))}
             </div>
 
-            {/* Rótulos da escala */}
             <div className="mb-3 flex justify-between px-1 text-[11px] text-muted-foreground">
               <span>Muito insatisfeito(a)</span>
               <span>Muito satisfeito(a)</span>
             </div>
 
-            {/* Label da nota selecionada */}
             <p
               className="mb-5 text-sm font-medium text-muted-foreground transition-opacity"
               style={{ minHeight: "20px", opacity: selected ? 1 : 0 }}
@@ -125,7 +131,6 @@ export function CsatModal({ placeName, onClose }: CsatModalProps) {
               {selected ? LABELS[selected] : ""}
             </p>
 
-            {/* Ações */}
             <div className="flex flex-col gap-2">
               <button
                 type="button"
