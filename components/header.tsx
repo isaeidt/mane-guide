@@ -10,9 +10,11 @@ import {
   Store,
   LogOut,
   LayoutDashboard,
+  Filter,
+  X,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { useState } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Sidebar } from "@/components/sidebar"
 import { useAuth } from "@/lib/auth-context"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -23,12 +25,18 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { places as allPlaces } from "@/lib/places"
 
 const navItems = [
   { href: "/", label: "Explorar" },
   { href: "/lado-b", label: "Lado B" },
   { href: "/comunidade", label: "Comunidade" },
 ]
+
+// Categorias e interesses para o modal de filtros
+const categories = Array.from(new Set(allPlaces.map((p) => p.category)))
+const allInterests = Array.from(new Set(allPlaces.flatMap((p) => p.interests)))
+const socialOptions = ["sozinho", "date", "galera"] as const
 
 export function Header() {
   const pathname = usePathname()
@@ -37,6 +45,33 @@ export function Header() {
 
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
+  
+  // Estados dos filtros
+  const [tempCategory, setTempCategory] = useState<string | null>(null)
+  const [tempPrice, setTempPrice] = useState<number | null>(null)
+  const [tempSocialTags, setTempSocialTags] = useState<string[]>([])
+  const [tempInterests, setTempInterests] = useState<string[]>([])
+  const [activeFiltersCount, setActiveFiltersCount] = useState(0)
+
+  // Busca filtros ativos na URL
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const category = params.get("category")
+    const price = params.get("price")
+    const social = params.getAll("social")
+    const interests = params.getAll("interest")
+    const query = params.get("query")
+
+    let count = 0
+    if (category) count++
+    if (price) count++
+    if (social.length > 0) count += social.length
+    if (interests.length > 0) count += interests.length
+    if (query) count++
+    
+    setActiveFiltersCount(count)
+  }, [])
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -50,14 +85,67 @@ export function Header() {
     router.push("/explorar")
   }
 
+  // Aplicar filtros
+  const applyFilters = useCallback(() => {
+    const params = new URLSearchParams()
+    
+    if (tempCategory) params.set("category", tempCategory)
+    if (tempPrice) params.set("price", String(tempPrice))
+    tempSocialTags.forEach((s) => params.append("social", s))
+    tempInterests.forEach((i) => params.append("interest", i))
+    
+    let count = 0
+    if (tempCategory) count++
+    if (tempPrice) count++
+    count += tempSocialTags.length
+    count += tempInterests.length
+    setActiveFiltersCount(count)
+    
+    const queryString = params.toString()
+    router.push(`/explorar${queryString ? `?${queryString}` : ''}`)
+    setIsFilterModalOpen(false)
+  }, [tempCategory, tempPrice, tempSocialTags, tempInterests, router])
+
+  // Limpar todos os filtros
+  const clearFilters = useCallback(() => {
+    setTempCategory(null)
+    setTempPrice(null)
+    setTempSocialTags([])
+    setTempInterests([])
+    setActiveFiltersCount(0)
+    router.push("/explorar")
+    setIsFilterModalOpen(false)
+  }, [router])
+
+  // Abrir modal com filtros atuais da URL
+  const openFilterModal = useCallback(() => {
+    const params = new URLSearchParams(window.location.search)
+    const category = params.get("category")
+    const price = params.get("price")
+    const social = params.getAll("social")
+    const interests = params.getAll("interest")
+    
+    setTempCategory(category || null)
+    setTempPrice(price ? Number(price) : null)
+    setTempSocialTags(social)
+    setTempInterests(interests)
+    setIsFilterModalOpen(true)
+  }, [])
+
+  // Função auxiliar para toggle de arrays
+  const toggleArray = <T extends string>(arr: T[], value: T): T[] => {
+    return arr.includes(value)
+      ? arr.filter((item) => item !== value)
+      : [...arr, value]
+  }
+
   return (
     <>
       <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="relative flex h-16 items-center px-4 sm:px-6 w-full">
           
-          {/* Left side - Menu button (SEMPRE VISÍVEL) e Logo */}
+          {/* Left side - Menu button e Logo */}
           <div className="flex items-center gap-3">
-            {/* Menu button - SEMPRE VISÍVEL em todos os tamanhos */}
             <button
               onClick={() => setSidebarOpen(true)}
               className="flex items-center justify-center rounded-full p-2 text-muted-foreground hover:bg-muted hover:text-foreground"
@@ -66,7 +154,6 @@ export function Header() {
               <Menu className="h-5 w-5" />
             </button>
 
-            {/* Logo - SEMPRE VISÍVEL */}
             <Link
               href="/"
               className="flex items-center gap-2.5 shrink-0"
@@ -84,7 +171,7 @@ export function Header() {
             </Link>
           </div>
 
-          {/* Nav desktop - CENTRO (visível apenas em telas grandes) */}
+          {/* Nav desktop - CENTRO */}
           <nav 
             aria-label="Navegação principal" 
             className="hidden md:flex items-center justify-center gap-1 absolute left-1/2 -translate-x-1/2"
@@ -112,9 +199,9 @@ export function Header() {
             })}
           </nav>
 
-          {/* Right side - Search e Auth */}
-          <div className="flex items-center gap-3 ml-auto">
-            {/* Search */}
+          {/* Right side - Search, Filter e Auth */}
+          <div className="flex items-center gap-2 ml-auto">
+            {/* Search - Desktop */}
             <form
               role="search"
               aria-label="Buscar lugares na ilha"
@@ -129,9 +216,7 @@ export function Header() {
                 type="search"
                 placeholder="Buscar na ilha..."
                 value={searchQuery}
-                onChange={(e) =>
-                  setSearchQuery(e.target.value)
-                }
+                onChange={(e) => setSearchQuery(e.target.value)}
                 className="h-9 w-full rounded-full border border-border bg-background pl-5 pr-10 text-sm placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
               />
               <button
@@ -142,6 +227,21 @@ export function Header() {
                 <Search className="h-4 w-4" />
               </button>
             </form>
+
+            {/* Botão de Filtros */}
+            <button
+              onClick={openFilterModal}
+              className="relative flex items-center gap-1.5 rounded-full bg-muted px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted/80 hover:text-foreground"
+              aria-label="Abrir filtros"
+            >
+              <Filter className="h-4 w-4" />
+              <span className="hidden sm:inline">Filtros</span>
+              {activeFiltersCount > 0 && (
+                <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+                  {activeFiltersCount}
+                </span>
+              )}
+            </button>
 
             {/* Auth */}
             <div className="flex items-center gap-2">
@@ -241,7 +341,162 @@ export function Header() {
         </div>
       </header>
 
-      {/* Sidebar - Drawer que abre ao clicar no botão */}
+      {/* MODAL DE FILTROS */}
+      {isFilterModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          {/* Overlay */}
+          <div 
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            onClick={() => setIsFilterModalOpen(false)}
+          />
+          
+          {/* Modal */}
+          <div className="relative w-full max-w-md rounded-2xl bg-card p-6 shadow-2xl animate-in fade-in zoom-in duration-200">
+            {/* Header do Modal */}
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold text-foreground">Filtros</h2>
+              <button
+                onClick={() => setIsFilterModalOpen(false)}
+                className="rounded-lg p-2 hover:bg-muted transition-colors"
+                aria-label="Fechar filtros"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            {/* Conteúdo dos Filtros */}
+            <div className="space-y-6 max-h-[60vh] overflow-y-auto">
+              {/* Categoria */}
+              <div>
+                <label className="mb-2 block text-sm font-medium text-muted-foreground">
+                  Categoria
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setTempCategory(null)}
+                    className={`rounded-full px-4 py-1.5 text-sm transition-colors ${
+                      tempCategory === null
+                        ? "bg-primary text-primary-foreground"
+                        : "bg-muted hover:bg-muted/80"
+                    }`}
+                  >
+                    Todos
+                  </button>
+                  {categories.map((c) => (
+                    <button
+                      key={c}
+                      type="button"
+                      onClick={() => setTempCategory(c === tempCategory ? null : c)}
+                      className={`rounded-full px-4 py-1.5 text-sm transition-colors ${
+                        tempCategory === c
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-muted hover:bg-muted/80"
+                      }`}
+                    >
+                      {c}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Preço */}
+              <div>
+                <label className="mb-2 block text-sm font-medium text-muted-foreground">
+                  Preço
+                </label>
+                <div className="flex gap-2">
+                  {[1, 2, 3].map((p) => (
+                    <button
+                      key={p}
+                      type="button"
+                      onClick={() => setTempPrice(tempPrice === p ? null : p)}
+                      className={`rounded-full px-4 py-1.5 text-sm transition-colors ${
+                        tempPrice === p
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-muted hover:bg-muted/80"
+                      }`}
+                    >
+                      {"$".repeat(p)}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Social */}
+              <div>
+                <label className="mb-2 block text-sm font-medium text-muted-foreground">
+                  Conforto / Social
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {socialOptions.map((s) => (
+                    <button
+                      key={s}
+                      type="button"
+                      onClick={() => setTempSocialTags((cur) => toggleArray(cur, s))}
+                      className={`rounded-full px-4 py-1.5 text-sm transition-colors ${
+                        tempSocialTags.includes(s)
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-muted hover:bg-muted/80"
+                      }`}
+                    >
+                      {s === "sozinho" ? "Sozinho" : s === "date" ? "Date" : "Galera"}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Interesses */}
+              <div>
+                <label className="mb-2 block text-sm font-medium text-muted-foreground">
+                  Interesses
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {allInterests.map((i) => (
+                    <button
+                      key={i}
+                      type="button"
+                      onClick={() => setTempInterests((cur) => toggleArray(cur, i))}
+                      className={`rounded-full px-4 py-1.5 text-sm transition-colors ${
+                        tempInterests.includes(i)
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-muted hover:bg-muted/80"
+                      }`}
+                    >
+                      {i}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Footer do Modal */}
+            <div className="mt-6 flex gap-3">
+              <button
+                onClick={clearFilters}
+                className="flex-1 rounded-lg bg-muted px-4 py-2.5 text-sm font-medium hover:bg-muted/80 transition-colors"
+              >
+                Limpar tudo
+              </button>
+              <button
+                onClick={applyFilters}
+                className="flex-1 rounded-lg bg-primary px-4 py-2.5 text-sm font-bold text-primary-foreground hover:bg-primary/90 transition-colors shadow-lg shadow-primary/30"
+              >
+                Aplicar Filtros
+              </button>
+            </div>
+
+            {/* Indicador de filtros ativos */}
+            {activeFiltersCount > 0 && (
+              <p className="mt-3 text-center text-xs text-muted-foreground">
+                {activeFiltersCount} filtro{activeFiltersCount > 1 ? 's' : ''} ativo{activeFiltersCount > 1 ? 's' : ''}
+              </p>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Sidebar */}
       <Sidebar
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
