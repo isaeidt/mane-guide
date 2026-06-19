@@ -8,6 +8,7 @@ import { PlaceCard } from "@/components/place-card"
 import { Search, Grid, List } from "lucide-react"
 import { places } from "@/lib/places"
 import Link from "next/link"
+import Footer from "@/components/footer"
 
 type FavoriteCard = {
   id: string
@@ -251,48 +252,7 @@ export default function FavoritosPage() {
           </div>
         </div>
       </main>
-      {/* Footer */}
-      <footer className="border-t border-border bg-card px-6 py-5">
-      <div className="mx-auto max-w-6xl">
-        <div className="mb-4 rounded-xl border border-blue-200 bg-blue-50 p-4">
-          <p className="text-sm font-semibold text-blue-900">
-            ⚠️ Versão em desenvolvimento
-          </p>
-
-
-          <p className="mt-2 text-sm text-blue-800">
-            Algumas funcionalidades, conteúdos e integrações ainda estão sendo desenvolvidas.
-            Dados podem ser simulados para fins de demonstração do projeto.
-          </p>
-        </div>
-
-        <div className="flex flex-col items-center justify-between gap-2 text-sm text-muted-foreground sm:flex-row">
-          <p className="font-semibold text-foreground">
-            ManéGuide
-          </p>
-
-          <div className="flex gap-6">
-            <Link href="#" className="hover:text-foreground">
-              Privacidade
-            </Link>
-
-            <Link href="#" className="hover:text-foreground">
-              Termos
-            </Link>
-
-            <Link href="#" className="hover:text-foreground">
-              Sobre Nós
-            </Link>
-
-            <Link href="#" className="hover:text-foreground">
-              Suporte
-            </Link>
-          </div>
-
-          <p>© 2026 ManéGuide · Feito com carinho em Floripa</p>
-        </div>
-      </div>
-    </footer>
+      <Footer></Footer>
     </div>
   )
 }

@@ -3,9 +3,12 @@
 import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import Footer from "@/components/footer"
 import { useSearchParams, useRouter } from "next/navigation"
 import { Eye, EyeOff, ArrowRight } from "lucide-react"
 import { useAuth } from "@/lib/auth-context"
+import { Header } from "@/components/header"
+//import { Footer } from "react-day-picker"
 
 type LoginMode = "usuario" | "estabelecimento"
 
@@ -78,40 +81,7 @@ export function LoginClient() {
 
   return (
     <div className="flex min-h-screen flex-col" style={{ backgroundColor: "#F8F4EF" }}>
-      {/* Header */}
-      <header className="flex h-16 items-center justify-between border-b border-border bg-card px-8">
-        <Link href="/" className="flex items-center gap-2">
-          <Image src="/logo.png" alt="ManéGuide" width={20} height={20} className="rounded-full" />
-          <span className="text-xl font-bold text-foreground">ManéGuide</span>
-        </Link>
-        <nav aria-label="Navegação principal" className="hidden items-center gap-8 md:flex">
-          <Link href="/" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
-            Explorar
-          </Link>
-          <Link href="/lado-b" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
-            Lado B
-          </Link>
-          <Link href="/comunidade" className="text-sm font-medium text-foreground hover:text-primary transition-colors">
-            Comunidade
-          </Link>
-        </nav>
-        <div className="flex items-center gap-3">
-          <form role="search" aria-label="Buscar lugares na ilha" className="relative hidden md:block">
-            <label htmlFor="login-header-search" className="sr-only">
-              Buscar lugares na ilha
-            </label>
-            <input
-              id="login-header-search"
-              type="search"
-              placeholder="Buscar na ilha..."
-              className="h-9 w-52 rounded-full border border-border bg-muted pl-4 pr-10 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-            />
-            <svg aria-hidden="true" className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-          </form>
-        </div>
-      </header>
+      <Header></Header>
 
       {/* Main content */}
       <main id="conteudo-principal" tabIndex={-1} className="flex flex-1 items-center justify-center px-4 py-16">
@@ -264,33 +234,7 @@ export function LoginClient() {
         </div>
       </main>
 
-      <footer className="border-t border-border bg-card px-8 py-5">
-      <div className="mx-auto max-w-6xl">
-        <div className="mb-4 rounded-xl border border-blue-200 bg-blue-50 p-4 text-center">
-          <p className="text-sm font-semibold text-blue-900">
-            ⚠️ Ambiente de demonstração
-          </p>
-
-          <p className="mt-1 text-sm text-blue-800">
-            Esta tela utiliza autenticação simulada. Você pode acessar o sistema utilizando qualquer e-mail e qualquer senha, os dados não ficarão salvos.
-          </p>
-
-        </div>
-
-        <div className="flex flex-col items-center justify-between gap-2 text-xs text-muted-foreground sm:flex-row">
-          <span className="font-semibold text-foreground">ManéGuide</span>
-
-          <div className="flex gap-6">
-            <Link href="#" className="hover:text-foreground">Privacidade</Link>
-            <Link href="#" className="hover:text-foreground">Termos</Link>
-            <Link href="#" className="hover:text-foreground">Sobre Nós</Link>
-            <Link href="#" className="hover:text-foreground">Contato</Link>
-          </div>
-
-          <span>© 2026 ManéGuide - Feito com sotaque em Floripa.</span>
-        </div>
-      </div>
-    </footer>
+      <Footer></Footer>
     </div>
   )
 }

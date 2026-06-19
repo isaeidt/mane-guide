@@ -53,20 +53,20 @@ export function Header() {
   return (
     <>
       <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6">
+        <div className="relative flex h-16 items-center px-4 sm:px-6 w-full">
           
-          {/* Left side */}
+          {/* Left side - Menu button (SEMPRE VISÍVEL) e Logo */}
           <div className="flex items-center gap-3">
-            {/* Mobile menu */}
+            {/* Menu button - SEMPRE VISÍVEL em todos os tamanhos */}
             <button
               onClick={() => setSidebarOpen(true)}
-              className="flex  items-center justify-center rounded-full p-2 text-muted-foreground hover:bg-muted hover:text-foreground"
+              className="flex items-center justify-center rounded-full p-2 text-muted-foreground hover:bg-muted hover:text-foreground"
               aria-label="Abrir menu"
             >
               <Menu className="h-5 w-5" />
             </button>
 
-            {/* Logo mantido */}
+            {/* Logo - SEMPRE VISÍVEL */}
             <Link
               href="/"
               className="flex items-center gap-2.5 shrink-0"
@@ -84,8 +84,11 @@ export function Header() {
             </Link>
           </div>
 
-          {/* Nav desktop */}
-          <nav aria-label="Navegação principal" className="hidden md:flex items-center gap-1">
+          {/* Nav desktop - CENTRO (visível apenas em telas grandes) */}
+          <nav 
+            aria-label="Navegação principal" 
+            className="hidden md:flex items-center justify-center gap-1 absolute left-1/2 -translate-x-1/2"
+          >
             {navItems.map((item) => {
               const isActive =
                 pathname === item.href ||
@@ -97,7 +100,7 @@ export function Header() {
                   href={item.href}
                   aria-current={isActive ? "page" : undefined}
                   className={cn(
-                    "rounded-full px-4 py-2 text-sm font-medium transition-colors",
+                    "rounded-full px-4 py-2 text-sm font-medium transition-colors whitespace-nowrap",
                     isActive
                       ? "bg-primary/10 text-primary"
                       : "text-muted-foreground hover:bg-muted hover:text-foreground"
@@ -109,8 +112,8 @@ export function Header() {
             })}
           </nav>
 
-          {/* Right side */}
-          <div className="flex items-center gap-3">
+          {/* Right side - Search e Auth */}
+          <div className="flex items-center gap-3 ml-auto">
             {/* Search */}
             <form
               role="search"
@@ -121,7 +124,6 @@ export function Header() {
               <label htmlFor="header-search" className="sr-only">
                 Buscar lugares na ilha
               </label>
-              <Search aria-hidden="true" className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <input
                 id="header-search"
                 type="search"
@@ -130,7 +132,7 @@ export function Header() {
                 onChange={(e) =>
                   setSearchQuery(e.target.value)
                 }
-                className="h-9 w-full rounded-full border border-border bg-background pl-10 pr-10 text-sm placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                className="h-9 w-full rounded-full border border-border bg-background pl-5 pr-10 text-sm placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
               />
               <button
                 type="submit"
@@ -239,7 +241,7 @@ export function Header() {
         </div>
       </header>
 
-      {/* Sidebar mobile */}
+      {/* Sidebar - Drawer que abre ao clicar no botão */}
       <Sidebar
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}

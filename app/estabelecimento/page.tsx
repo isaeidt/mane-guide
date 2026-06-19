@@ -251,21 +251,6 @@ export default function EstabelecimentoPage() {
 
           <div className="ml-auto flex items-center gap-3">
             {/* Search */}
-            <form role="search" aria-label="Buscar lugares na ilha" className="relative hidden sm:block">
-              <label htmlFor="partner-search" className="sr-only">
-                Buscar lugares na ilha
-              </label>
-              <input
-                id="partner-search"
-                type="search"
-                placeholder="Buscar na ilha..."
-                className="h-9 w-52 rounded-full border border-border bg-muted pl-4 pr-10 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-              />
-              <svg aria-hidden="true" className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </form>
-
             <Avatar className="h-9 w-9 cursor-pointer border-2 border-primary/20">
               <AvatarImage src={user.avatar} alt={displayName} />
               <AvatarFallback>{displayName.charAt(0)}</AvatarFallback>
