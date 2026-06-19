@@ -9,6 +9,7 @@ import { useAuth } from "@/lib/auth-context"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { DocumentTitle } from "@/components/document-title"
 import { cn } from "@/lib/utils"
+import Footer from "@/components/footer"
 
 const sidebarLinks = [
   { href: "/estabelecimento", label: "Dashboard", icon: LayoutDashboard },
@@ -203,6 +204,7 @@ export default function MeusLocaisPage() {
             </div>
           </div>
         </main>
+        <Footer></Footer>
       </div>
     </div>
   )
